@@ -19,7 +19,7 @@ function Hero() {
 
   return (
     <>
-      <div className="relative h-screen w-screen overflow-hidden bg-[#f8f8ff] font-[Inter] flex items-center justify-center">
+      <div className="relative h-screen overflow-hidden bg-[#f8f8ff] flex items-center justify-center">
         {/* Animated gradient background */}
         <div className="absolute inset-0 z-0">
           {/* Primary gradient blob that moves with mouse */}

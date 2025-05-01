@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { AppContext } from "./context/AppContext";
 import AppContextProvider from "./context/AppContext";
 import { Home } from "./pages/page_index";
+import { Footer } from "./components/component_index";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
+        <Footer />
       </AppContextProvider>
     </>
   );
