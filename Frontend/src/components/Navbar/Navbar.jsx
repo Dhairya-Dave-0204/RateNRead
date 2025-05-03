@@ -7,7 +7,7 @@ function Navbar() {
 
   return (
     <>
-      <header className="w-full bg-[#4a6cf7]/8 fixed top-0 left-0 z-50">
+      <header className="w-full bg-[#4a6cf7]/8 absolute top-0 left-0 z-50">
         <nav className="z-20 flex items-center justify-between px-6 py-6 mx-auto max-w-7xl md:px-12">
           {/* Logo */}
           <Link

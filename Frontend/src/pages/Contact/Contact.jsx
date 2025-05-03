@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -18,26 +19,59 @@ function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
+  const toastDisplay = (message, status) => {
+    if (status) {
+      toast.success(message, {});
+    } else {
+      toast.error(message, {});
+    }
+  };
 
-    // Reset form after submission
-    setTimeout(() => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        access_key: "a14bf5dd-003f-4db0-8b16-d1545324aae9",
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      toastDisplay("Form Submitted Successfully", true);
+      setSubmitted(true);
       setFormData({
-        name: "",
+        firstName: "",
+        lastName: "",
         email: "",
-        subject: "",
+        phone: "",
         message: "",
       });
-      setSubmitted(false);
-    }, 3000);
+      
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setSubmitted(false);
+      }, 3500);
+    } else {
+      toastDisplay("Error in submitting the form", false);
+    }
   };
 
   return (
     <>
-      <div className="h-screen bg-[#f8f8ff] mt-20">
+      <main className="h-screen bg-[#f8f8ff] mt-20">
         <div className="px-6 py-12 mx-auto max-w-7xl md:px-12">
           {/* Hero Section */}
           <div className="mb-16 text-center">
@@ -131,7 +165,7 @@ function Contact() {
               </h2>
 
               {submitted ? (
-                <div className="bg-[#a9e5bb] bg-opacity-20 p-6 rounded-lg border border-[#4caf50] text-center">
+                <div className="bg-[#a9e5bb] bg-opacity-20 p-6 rounded-lg border border-[#4caf50] text-center h-[90%] flex items-center justify-center flex-col">
                   <div className="mx-auto w-12 h-12 bg-[#4caf50] rounded-full flex items-center justify-center mb-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -148,10 +182,10 @@ function Contact() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium text-[#1c1c1e] mb-2">
+                  <h3 className="text-2xl font-semibold text-[#1c1c1e] mb-2">
                     Message Sent!
                   </h3>
-                  <p className="text-[#3a3a3c]">
+                  <p className="text-[#3a3a3c] text-lg">
                     Thank you for reaching out. We'll get back to you shortly.
                   </p>
                 </div>
@@ -250,7 +284,7 @@ function Contact() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
