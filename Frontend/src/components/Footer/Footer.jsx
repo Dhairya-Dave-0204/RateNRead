@@ -8,28 +8,28 @@ function Footer() {
     {
       title: "Product",
       links: [
-        { name: "Features", href: "#features" },
-        { name: "How It Works", href: "#how-it-works" },
-        { name: "Pricing", href: "#pricing" },
-        { name: "FAQ", href: "#faq" },
+        { name: "Features", href: "/" },
+        { name: "How It Works", href: "/" },
+        { name: "Pricing", href: "/" },
+        { name: "FAQ", href: "/faq" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { name: "Book API", href: "#" },
-        { name: "Reading Tips", href: "#" },
-        { name: "Blog", href: "#" },
-        { name: "Community", href: "#" },
+        { name: "Book API", href: "/" },
+        { name: "Reading Tips", href: "/" },
+        { name: "Blog", href: "/" },
+        { name: "Community", href: "/" },
       ],
     },
     {
       title: "Company",
       links: [
-        { name: "About Us", href: "#" },
-        { name: "Contact", href: "#" },
-        { name: "Privacy Policy", href: "#" },
-        { name: "Terms of Service", href: "#" },
+        { name: "About Us", href: "/about" },
+        { name: "Contact", href: "/contact" },
+        { name: "Privacy Policy", href: "/" },
+        { name: "Terms of Service", href: "/" },
       ],
     },
   ];
@@ -183,12 +183,12 @@ function Footer() {
                 <ul className="space-y-3">
                   {group.links.map((link) => (
                     <li key={link.name}>
-                      <a
-                        href={link.href}
+                      <Link
+                        to={link.href}
                         className="text-[#a1a1a3] hover:text-[#4a6cf7] transition-colors duration-300"
                       >
                         {link.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
