@@ -96,17 +96,17 @@ function Steps() {
 
   return (
     <>
-      <section className="py-16 md:py-24 bg-[#f8f8ff]">
+      <section className="py-16 md:py-24 bg-background">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="mb-16 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1c1c1e]">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl text-primary">
               How It{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-main-border to-ternary-pink">
                 Works
               </span>
             </h2>
-            <p className="text-[#a1a1a3] text-lg max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto text-lg text-text-mute">
               Getting started with your personal book tracking journey is
               simple. Follow these steps to begin cataloging your literary
               adventures.
@@ -116,7 +116,7 @@ function Steps() {
           {/* Steps - Desktop Version (Hidden on Mobile) */}
           <div className="relative hidden pb-12 lg:block">
             {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-[#4a6cf7] to-[#f29ca3]"></div>
+            <div className="absolute w-px h-full transform -translate-x-1/2 left-1/2 bg-gradient-to-b from-main-border to-ternary-pink"></div>
 
             {/* Timeline steps */}
             {steps.map((step, index) => (
@@ -132,17 +132,17 @@ function Steps() {
                     index % 2 === 0 ? "pr-12 text-right" : "pl-12 text-left"
                   }`}
                 >
-                  <div className="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#4a6cf7] h-full">
-                    <h3 className="text-xl font-semibold mb-3 text-[#1c1c1e]">
+                  <div className="h-full p-6 bg-white border-t-4 shadow-lg rounded-xl border-main-border">
+                    <h3 className="mb-3 text-xl font-semibold text-primary">
                       {step.title}
                     </h3>
-                    <p className="text-[#3a3a3c]">{step.description}</p>
+                    <p className="text-tertiary">{step.description}</p>
                   </div>
                 </div>
 
                 {/* Center icon */}
                 <div className="absolute z-20 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-6">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-lg border-4 border-[#4a6cf7] text-[#4a6cf7]">
+                  <div className="flex items-center justify-center w-12 h-12 bg-white border-4 rounded-full shadow-lg border-main-border text-main-border">
                     {step.id}
                   </div>
                 </div>
@@ -153,36 +153,36 @@ function Steps() {
             ))}
 
             {/* Final dot */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3]"></div>
+            <div className="absolute bottom-0 w-4 h-4 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-main-border to-ternary-pink"></div>
           </div>
 
           {/* Steps - Mobile & Tablet Version (Hidden on Desktop) */}
           <div className="lg:hidden">
             <div className="relative">
               {/* Vertical timeline line */}
-              <div className="absolute left-6 top-0 h-full w-px bg-gradient-to-b from-[#4a6cf7] to-[#f29ca3]"></div>
+              <div className="absolute top-0 w-px h-full left-6 bg-gradient-to-b from-main-border to-ternary-pink"></div>
 
               {/* Step items */}
               {steps.map((step) => (
                 <div key={step.id} className="relative pb-12 pl-16 last:pb-0">
                   {/* Step number circle */}
-                  <div className="absolute left-0 flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md border-4 border-[#4a6cf7] text-[#4a6cf7] font-semibold">
+                  <div className="absolute left-0 flex items-center justify-center w-12 h-12 font-semibold bg-white border-4 rounded-full shadow-md border-main-border text-main-border">
                     {step.id}
                   </div>
 
                   {/* Step content card */}
-                  <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-[#4a6cf7]">
-                    <h3 className="text-xl font-semibold mb-3 text-[#1c1c1e] flex items-center">
-                      <span className="text-[#4a6cf7] mr-3">{step.icon}</span>
+                  <div className="p-6 bg-white border-l-4 shadow-md rounded-xl border-main-border">
+                    <h3 className="flex items-center mb-3 text-xl font-semibold text-primary">
+                      <span className="mr-3 text-main-border">{step.icon}</span>
                       {step.title}
                     </h3>
-                    <p className="text-[#3a3a3c]">{step.description}</p>
+                    <p className="text-tertiary">{step.description}</p>
                   </div>
                 </div>
               ))}
 
               {/* Final dot */}
-              <div className="absolute bottom-0 left-6 transform -translate-x-1/2 w-3 h-3 rounded-full bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3]"></div>
+              <div className="absolute bottom-0 w-3 h-3 transform -translate-x-1/2 rounded-full left-6 bg-gradient-to-r from-main-border to-ternary-pink"></div>
             </div>
           </div>
 
@@ -190,17 +190,17 @@ function Steps() {
           <div className="mt-16 text-center">
             <div className="relative inline-block px-10 py-8 overflow-hidden bg-white shadow-xl rounded-2xl">
               {/* Decorative elements */}
-              <div className="absolute top-0 left-0 w-16 h-16 rounded-br-full bg-gradient-to-br from-[#4a6cf7]/10 to-[#f29ca3]/10"></div>
-              <div className="absolute bottom-0 right-0 w-16 h-16 rounded-tl-full bg-gradient-to-tl from-[#4a6cf7]/10 to-[#f29ca3]/10"></div>
+              <div className="absolute top-0 left-0 w-16 h-16 rounded-br-full bg-gradient-to-br from-main-border/10 to-ternary-pink/10"></div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 rounded-tl-full bg-gradient-to-tl from-main-border/10 to-ternary-pink/10"></div>
 
-              <h3 className="text-2xl font-bold mb-3 text-[#1c1c1e]">
+              <h3 className="mb-3 text-2xl font-bold text-primary">
                 Ready to Start Your Reading Journey?
               </h3>
-              <p className="text-[#a1a1a3] mb-6 max-w-lg mx-auto">
+              <p className="max-w-lg mx-auto mb-6 text-text-mute">
                 Begin tracking your literary adventures and create a
                 personalized record of your reading experiences.
               </p>
-              <button className="bg-gradient-to-r cursor-pointer from-[#4a6cf7] to-[#f29ca3] text-white py-3 px-8 rounded-lg font-medium hover:shadow-lg transition duration-300">
+              <button className="px-8 py-3 font-medium text-white transition duration-300 rounded-lg cursor-pointer bg-gradient-to-r from-main-border to-ternary-pink hover:shadow-lg">
                 Create Your Library Now
               </button>
             </div>

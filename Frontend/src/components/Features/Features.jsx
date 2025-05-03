@@ -99,17 +99,17 @@ function Features() {
 
   return (
     <>
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[#f8f8ff] to-[#f2f2f7]">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-background to-accent-blue">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1c1c1e]">
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl text-primary">
             Your Reading Journey,{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-main-border to-ternary-pink">
               Elevated
             </span>
           </h2>
-          <p className="text-[#a1a1a3] text-lg max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto text-lg text-text-mute">
             Discover a new way to connect with your books through personalized tracking, thoughtful organization, and meaningful reflection.
           </p>
         </div>
@@ -123,25 +123,25 @@ function Features() {
                 key={feature.id}
                 className={`p-6 rounded-xl transition-all duration-300 cursor-pointer ${
                   activeFeature === feature.id 
-                    ? "bg-white shadow-lg border-l-4 border-[#4a6cf7]" 
-                    : "bg-[#f2f2f7] hover:bg-white hover:shadow-md"
+                    ? "bg-white shadow-lg border-l-4 border-main-border" 
+                    : "bg-accent-blue hover:bg-white hover:shadow-md"
                 }`}
                 onClick={() => setActiveFeature(feature.id)}
               >
                 <div className="flex items-start">
                   <div className={`p-3 rounded-lg mr-4 ${
                     activeFeature === feature.id 
-                      ? "bg-[#4a6cf7] text-white" 
-                      : "bg-white text-[#4a6cf7]"
+                      ? "bg-main-border text-white" 
+                      : "bg-white text-main-border"
                   }`}>
                     {feature.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 text-[#1c1c1e]">{feature.title}</h3>
+                    <h3 className="mb-2 text-xl font-semibold text-primary">{feature.title}</h3>
                     <p className={`transition-all duration-300 ${
                       activeFeature === feature.id 
-                        ? "text-[#3a3a3c] block" 
-                        : "text-[#a1a1a3] lg:hidden"
+                        ? "text-tertiary block" 
+                        : "text-text-mute lg:hidden"
                     }`}>
                       {feature.description}
                     </p>
@@ -155,24 +155,24 @@ function Features() {
           <div className="bg-white rounded-2xl shadow-xl p-6 lg:p-8 relative overflow-hidden h-full min-h-[400px] flex items-center justify-center">
             {activeFeature === 1 && (
               <div className="w-full max-w-md mx-auto animate-fade-in">
-                <div className="bg-[#f8f8ff] rounded-lg p-4 mb-4 border border-gray-200">
+                <div className="p-4 mb-4 border border-gray-200 rounded-lg bg-background">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="font-medium text-[#1c1c1e]">Recently Added</div>
-                    <div className="text-[#4a6cf7] text-sm">View All</div>
+                    <div className="font-medium text-primary">Recently Added</div>
+                    <div className="text-sm text-main-border">View All</div>
                   </div>
                   {[1, 2, 3].map((item) => (
                     <div key={item} className="flex items-center py-2 border-b border-gray-100 last:border-0">
-                      <div className="h-12 w-8 bg-gradient-to-br from-[#4a6cf7] to-[#f29ca3] rounded mr-3"></div>
+                      <div className="w-8 h-12 mr-3 rounded bg-gradient-to-br from-main-border to-ternary-pink"></div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-[#1c1c1e]">Book Title {item}</div>
-                        <div className="text-xs text-[#a1a1a3]">Author Name</div>
+                        <div className="text-sm font-medium text-primary">Book Title {item}</div>
+                        <div className="text-xs text-text-mute">Author Name</div>
                       </div>
-                      <div className="text-xs text-[#a1a1a3]">Today</div>
+                      <div className="text-xs text-text-mute">Today</div>
                     </div>
                   ))}
                 </div>
                 <div className="flex justify-center">
-                  <button className="bg-[#4a6cf7] text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-600 transition">
+                  <button className="px-4 py-2 text-sm text-white transition rounded-lg bg-main-border hover:bg-blue-600">
                     Add New Book
                   </button>
                 </div>
@@ -183,24 +183,24 @@ function Features() {
               <div className="w-full max-w-md mx-auto animate-fade-in">
                 <div className="p-6 mb-4 bg-white border border-gray-200 rounded-lg">
                   <div className="mb-4">
-                    <div className="font-medium text-[#1c1c1e] mb-1">Project Hail Mary</div>
-                    <div className="text-sm text-[#a1a1a3] mb-2">by Andy Weir</div>
+                    <div className="mb-1 font-medium text-primary">Project Hail Mary</div>
+                    <div className="mb-2 text-sm text-text-mute">by Andy Weir</div>
                     <div className="flex mb-3">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className="w-5 h-5 text-[#4a6cf7]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <svg key={star} className="w-5 h-5 text-main-border" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                           <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
                         </svg>
                       ))}
                     </div>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-[#3a3a3c] mb-1">Your Notes</label>
-                    <div className="bg-[#f8f8ff] rounded p-3 text-sm text-[#3a3a3c]">
+                    <label className="block mb-1 text-sm font-medium text-tertiary">Your Notes</label>
+                    <div className="p-3 text-sm rounded bg-background text-tertiary">
                       An incredible sci-fi story with fascinating scientific concepts. The protagonist's journey and problem-solving approach kept me engaged throughout...
                     </div>
                   </div>
                   <div className="text-right">
-                    <button className="text-[#4a6cf7] text-sm hover:underline">Edit Review</button>
+                    <button className="text-sm text-main-border hover:underline">Edit Review</button>
                   </div>
                 </div>
               </div>
@@ -209,11 +209,11 @@ function Features() {
             {activeFeature === 3 && (
               <div className="w-full max-w-md mx-auto animate-fade-in">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="font-medium text-[#1c1c1e]">Your Collection</div>
-                  <div className="bg-[#f8f8ff] rounded-lg flex p-1">
-                    <button className="px-3 py-1 text-xs rounded bg-[#4a6cf7] text-white">Recent</button>
-                    <button className="px-3 py-1 text-xs rounded text-[#3a3a3c]">Rating</button>
-                    <button className="px-3 py-1 text-xs rounded text-[#3a3a3c]">Title</button>
+                  <div className="font-medium text-primary">Your Collection</div>
+                  <div className="flex p-1 rounded-lg bg-background">
+                    <button className="px-3 py-1 text-xs text-white rounded bg-main-border">Recent</button>
+                    <button className="px-3 py-1 text-xs rounded text-tertiary">Rating</button>
+                    <button className="px-3 py-1 text-xs rounded text-tertiary">Title</button>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -222,15 +222,15 @@ function Features() {
                     { title: "Dune", author: "Frank Herbert", rating: 4 },
                     { title: "The Great Gatsby", author: "F. Scott Fitzgerald", rating: 3 }
                   ].map((book, idx) => (
-                    <div key={idx} className="flex items-center p-3 bg-[#f8f8ff] rounded-lg">
-                      <div className="h-12 w-8 bg-gradient-to-br from-[#a9e5bb] to-[#4a6cf7] rounded mr-3"></div>
+                    <div key={idx} className="flex items-center p-3 rounded-lg bg-background">
+                      <div className="w-8 h-12 mr-3 rounded bg-gradient-to-br from-ternary-mint to-main-border"></div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-[#1c1c1e]">{book.title}</div>
-                        <div className="text-xs text-[#a1a1a3]">{book.author}</div>
+                        <div className="text-sm font-medium text-primary">{book.title}</div>
+                        <div className="text-xs text-text-mute">{book.author}</div>
                       </div>
                       <div className="flex">
                         {Array(book.rating).fill(0).map((_, i) => (
-                          <svg key={i} className="w-4 h-4 text-[#4a6cf7]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                          <svg key={i} className="w-4 h-4 text-main-border" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
                           </svg>
                         ))}
@@ -245,35 +245,35 @@ function Features() {
               <div className="w-full max-w-md mx-auto animate-fade-in">
                 <div className="p-6 bg-white border border-gray-200 rounded-lg">
                   <div className="mb-4">
-                    <div className="font-medium text-[#1c1c1e] mb-1">Reading Insights</div>
-                    <div className="text-sm text-[#a1a1a3]">Your reading patterns and reflections</div>
+                    <div className="mb-1 font-medium text-primary">Reading Insights</div>
+                    <div className="text-sm text-text-mute">Your reading patterns and reflections</div>
                   </div>
                   <div className="mb-6">
-                    <div className="h-4 bg-[#f8f8ff] rounded-full mb-1">
-                      <div className="h-4 bg-gradient-to-r from-[#4a6cf7] to-[#a9e5bb] rounded-full" style={{ width: '65%' }}></div>
+                    <div className="h-4 mb-1 rounded-full bg-background">
+                      <div className="h-4 rounded-full bg-gradient-to-r from-main-border to-ternary-mint" style={{ width: '65%' }}></div>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-[#a1a1a3]">2024 Reading Goal</span>
-                      <span className="text-[#3a3a3c]">26/40 books</span>
+                      <span className="text-text-mute">2024 Reading Goal</span>
+                      <span className="text-tertiary">26/40 books</span>
                     </div>
                   </div>
-                  <div className="bg-[#f8f8ff] rounded-lg p-4 mb-4">
-                    <div className="text-sm font-medium text-[#1c1c1e] mb-2">Your Reading Journey</div>
+                  <div className="p-4 mb-4 rounded-lg bg-background">
+                    <div className="mb-2 text-sm font-medium text-primary">Your Reading Journey</div>
                     <div className="flex justify-between mb-3">
                       {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month) => (
                         <div key={month} className="flex flex-col items-center">
-                          <div className="h-16 w-6 bg-[#e5e5e7] rounded-t-sm relative overflow-hidden">
+                          <div className="relative w-6 h-16 overflow-hidden rounded-t-sm bg-text-pri">
                             <div 
-                              className="absolute bottom-0 w-full bg-[#4a6cf7]" 
+                              className="absolute bottom-0 w-full bg-main-border" 
                               style={{ height: `${Math.floor(Math.random() * 100)}%` }}
                             ></div>
                           </div>
-                          <div className="text-xs text-[#a1a1a3] mt-1">{month}</div>
+                          <div className="mt-1 text-xs text-text-mute">{month}</div>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="text-xs text-[#a1a1a3] text-center">
+                  <div className="text-xs text-center text-text-mute">
                     Track your reading habits over time and discover your literary journey
                   </div>
                 </div>

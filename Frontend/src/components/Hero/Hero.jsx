@@ -19,12 +19,12 @@ function Hero() {
 
   return (
     <>
-      <div className="relative h-screen overflow-hidden bg-[#f8f8ff] flex items-center justify-center">
+      <div className="relative flex items-center justify-center h-screen overflow-hidden bg-background">
         {/* Animated gradient background */}
         <div className="absolute inset-0 z-0">
           {/* Primary gradient blob that moves with mouse */}
           <div
-            className="absolute w-full h-full bg-gradient-to-br from-[#4a6cf7]/20 via-transparent to-transparent blur-3xl transition-all duration-700 ease-out"
+            className="absolute w-full h-full transition-all duration-700 ease-out bg-gradient-to-br from-main-border/20 via-transparent to-transparent blur-3xl"
             style={{
               transform: `translate(${mousePosition.x * -20}px, ${
                 mousePosition.y * -20
@@ -33,17 +33,17 @@ function Hero() {
           ></div>
 
           {/* Secondary gradient blob */}
-          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-[#f29ca3]/15 via-[#a9e5bb]/10 to-transparent blur-3xl animate-pulse-slow"></div>
+          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-ternary-pink/15 via-ternary-mint/10 to-transparent blur-3xl animate-pulse-slow"></div>
 
           {/* Accent gradient lines */}
           <div className="absolute inset-0 opacity-[0.07]">
-            <div className="absolute left-1/4 top-0 h-screen w-px bg-gradient-to-b from-transparent via-[#4a6cf7] to-transparent animate-glow"></div>
+            <div className="absolute top-0 w-px h-screen left-1/4 bg-gradient-to-b from-transparent via-main-border to-transparent animate-glow"></div>
             <div
-              className="absolute left-2/4 top-0 h-screen w-px bg-gradient-to-b from-transparent via-[#f29ca3] to-transparent animate-glow"
+              className="absolute top-0 w-px h-screen left-2/4 bg-gradient-to-b from-transparent via-ternary-pink to-transparent animate-glow"
               style={{ animationDelay: "1s" }}
             ></div>
             <div
-              className="absolute left-3/4 top-0 h-screen w-px bg-gradient-to-b from-transparent via-[#a9e5bb] to-transparent animate-glow"
+              className="absolute top-0 w-px h-screen left-3/4 bg-gradient-to-b from-transparent via-ternary-mint to-transparent animate-glow"
               style={{ animationDelay: "2s" }}
             ></div>
           </div>
@@ -57,29 +57,29 @@ function Hero() {
           {/* Animated highlight badge */}
           <div className="relative mb-8 overflow-hidden rounded-full">
             <div className="inline-flex items-center px-6 py-2 border rounded-full bg-white/30 backdrop-blur-sm border-white/40">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#4a6cf7]/0 via-[#4a6cf7]/10 to-[#4a6cf7]/0 animate-shimmer"></div>
-              <span className="relative text-[#1c1c1e] font-medium">
+              <div className="absolute inset-0 bg-gradient-to-r from-main-border/0 via-main-border/10 to-main-border/0 animate-shimmer"></div>
+              <span className="relative font-medium text-primary">
                 Your Personal Book Library
               </span>
             </div>
           </div>
 
           {/* Headline with gradient animated underline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#1c1c1e] leading-tight mb-6">
+          <h1 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-primary">
             <span className="relative inline-block">
               Track,
-              <div className="absolute bottom-2 left-0 h-3 w-full bg-gradient-to-r from-[#4a6cf7]/40 to-[#f29ca3]/40 rounded-full animate-pulse-slow"></div>
+              <div className="absolute left-0 w-full h-3 rounded-full bottom-2 bg-gradient-to-r from-main-border/40 to-ternary-pink/40 animate-pulse-slow"></div>
             </span>{" "}
             <span className="relative inline-block">
               Rate
               <div
-                className="absolute bottom-2 left-0 h-3 w-full bg-gradient-to-r from-[#f29ca3]/40 to-[#a9e5bb]/40 rounded-full animate-pulse-slow"
+                className="absolute left-0 w-full h-3 rounded-full bottom-2 bg-gradient-to-r from-ternary-pink/40 to-ternary-mint/40 animate-pulse-slow"
                 style={{ animationDelay: "1s" }}
               ></div>
             </span>{" "}
             &{" "}
             <span className="relative inline-block">
-              <span className="bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3] bg-clip-text text-transparent animate-gradient-x">
+              <span className="text-transparent bg-gradient-to-r from-main-border to-ternary-pink bg-clip-text animate-gradient-x">
                 Reflect
               </span>
             </span>
@@ -88,7 +88,7 @@ function Hero() {
           </h1>
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-[#a1a1a3] max-w-2xl mb-10">
+          <p className="max-w-2xl mb-10 text-lg md:text-xl text-text-mute">
             Your personal digital library that evolves with your reading
             journey, designed to capture the essence of every book you
             experience.
@@ -96,17 +96,17 @@ function Hero() {
 
           {/* CTA Button with gradient animation */}
           <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4a6cf7] to-[#f29ca3] rounded-full opacity-75 blur-sm group-hover:opacity-100 transition duration-500"></div>
-            <button className="relative cursor-pointer flex items-center justify-center px-8 py-4 rounded-full bg-white text-[#1c1c1e] font-medium group-hover:text-[#4a6cf7] transition duration-300">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-main-border to-ternary-pink rounded-full opacity-75 blur-sm group-hover:opacity-100 transition duration-500"></div>
+            <button className="relative flex items-center justify-center px-8 py-4 font-medium transition duration-300 bg-white rounded-full cursor-pointer text-primary group-hover:text-main-border">
               <span>Start Your Library</span>
               <i class="ri-arrow-right-line ml-2 transition-transform duration-300 group-hover:translate-x-1 text-2xl"></i>
             </button>
           </div>
 
           {/* Floating Gradient Ring */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-[#4a6cf7]/5 z-0 animate-spin-slow"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-main-border/5 z-0 animate-spin-slow"></div>
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-2 border-[#f29ca3]/5 z-0 animate-spin-slow"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-2 border-ternary-pink/5 z-0 animate-spin-slow"
             style={{ animationDirection: "reverse", animationDuration: "30s" }}
           ></div>
         </div>

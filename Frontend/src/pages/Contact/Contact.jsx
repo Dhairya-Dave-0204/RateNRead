@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -71,14 +72,14 @@ function Contact() {
 
   return (
     <>
-      <main className="h-screen bg-[#f8f8ff] mt-20">
+      <main className="h-screen mt-20 bg-background">
         <div className="px-6 py-12 mx-auto max-w-7xl md:px-12">
           {/* Hero Section */}
           <div className="mb-16 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#1c1c1e] mb-4">
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl text-primary">
               Get in Touch
             </h1>
-            <p className="text-[#a1a1a3] text-lg max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto text-lg text-text-mute">
               Have questions about ReadnRate or need help with your reading
               journey? We're here to assist you.
             </p>
@@ -87,86 +88,86 @@ function Contact() {
           {/* Contact Section */}
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
             {/* Contact Info */}
-            <div className="bg-white p-8 rounded-2xl shadow-md border border-[#f2f2f7] order-2 lg:order-1">
-              <h2 className="text-2xl font-bold text-[#1c1c1e] mb-6">
+            <div className="order-2 p-8 bg-white border shadow-md rounded-2xl border-accent-blue lg:order-1">
+              <h2 className="mb-6 text-2xl font-bold text-primary">
                 Contact Information
               </h2>
 
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="bg-[#f2f2f7] p-3 rounded-lg mr-4">
-                    <i class="ri-mail-line text-xl text-[#4a6cf7]"></i>
+                  <div className="p-3 mr-4 rounded-lg bg-accent-blue">
+                    <i class="ri-mail-line text-xl text-main-border"></i>
                   </div>
                   <div>
-                    <h3 className="font-medium text-[#3a3a3c]">Email Us</h3>
-                    <p className="text-[#a1a1a3] mt-1">support@readnrate.com</p>
-                    <p className="text-[#a1a1a3]">info@readnrate.com</p>
+                    <h3 className="font-medium text-tertiary">Email Us</h3>
+                    <p className="mt-1 text-text-mute">support@readnrate.com</p>
+                    <p className="text-text-mute">info@readnrate.com</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-[#f2f2f7] p-3 rounded-lg mr-4">
-                    <i class="ri-phone-line text-[#4a6cf7] text-xl"></i>
+                  <div className="p-3 mr-4 rounded-lg bg-accent-blue">
+                    <i class="ri-phone-line text-main-border text-xl"></i>
                   </div>
                   <div>
-                    <h3 className="font-medium text-[#3a3a3c]">Call Us</h3>
-                    <p className="text-[#a1a1a3] mt-1">+1 (555) 123-4567</p>
-                    <p className="text-[#a1a1a3]">Mon-Fri, 9AM-6PM EST</p>
+                    <h3 className="font-medium text-tertiary">Call Us</h3>
+                    <p className="mt-1 text-text-mute">+1 (555) 123-4567</p>
+                    <p className="text-text-mute">Mon-Fri, 9AM-6PM EST</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-[#f2f2f7] p-3 rounded-lg mr-4">
-                    <i class="ri-map-pin-line text-[#4a6cf7] text-xl"></i>
+                  <div className="p-3 mr-4 rounded-lg bg-accent-blue">
+                    <i class="ri-map-pin-line text-main-border text-xl"></i>
                   </div>
                   <div>
-                    <h3 className="font-medium text-[#3a3a3c]">Visit Us</h3>
-                    <p className="text-[#a1a1a3] mt-1">123 Reading Avenue</p>
-                    <p className="text-[#a1a1a3]">Bookville, NY 10001</p>
+                    <h3 className="font-medium text-tertiary">Visit Us</h3>
+                    <p className="mt-1 text-text-mute">123 Reading Avenue</p>
+                    <p className="text-text-mute">Bookville, NY 10001</p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-12">
-                <h3 className="text-lg font-medium text-[#3a3a3c] mb-4">
+                <h3 className="mb-4 text-lg font-medium text-tertiary">
                   Follow Us
                 </h3>
                 <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    className="bg-[#f2f2f7] p-3 rounded-lg hover:bg-[#4a6cf7] hover:text-white transition-colors group"
+                  <Link
+                    to={"https://linkedin.com/in/davedhairya"}
+                    className="p-3 transition-colors rounded-lg bg-accent-blue hover:bg-main-border hover:text-white group"
                   >
-                    <i class="ri-linkedin-fill text-[#3a3a3c] group-hover:text-white duration-500 transition-colors text-xl"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-[#f2f2f7] p-3 rounded-lg hover:bg-[#4a6cf7] hover:text-white transition-colors group"
+                    <i class="ri-linkedin-fill text-tertiary group-hover:text-white duration-500 transition-colors text-xl"></i>
+                  </Link>
+                  <Link
+                    to={"https://www.instagram.com/ig_dhairya_962"}
+                    className="p-3 transition-colors rounded-lg bg-accent-blue hover:bg-main-border hover:text-white group"
                   >
-                    <i class="ri-instagram-line text-[#3a3a3c] group-hover:text-white duration-500 transition-colors text-xl"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-[#f2f2f7] p-3 rounded-lg hover:bg-[#4a6cf7] hover:text-white transition-colors group"
+                    <i class="ri-instagram-line text-tertiary group-hover:text-white duration-500 transition-colors text-xl"></i>
+                  </Link>
+                  <Link
+                    to={"https://github.com/Dhairya-Dave-0204"}
+                    className="p-3 transition-colors rounded-lg bg-accent-blue hover:bg-main-border hover:text-white group"
                   >
-                    <i class="ri-github-line text-[#3a3a3c] group-hover:text-white duration-500 transition-colors text-xl"></i>
-                  </a>
+                    <i class="ri-github-line text-tertiary group-hover:text-white duration-500 transition-colors text-xl"></i>
+                  </Link>
                 </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-2xl shadow-md border border-[#f2f2f7] relative overflow-hidden order-1 lg:order-2">
+            <div className="relative order-1 p-8 overflow-hidden bg-white border shadow-md rounded-2xl border-accent-blue lg:order-2">
               {/* Decoration */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-[#4a6cf7] opacity-10"></div>
-              <div className="absolute -bottom-10 -left-10 w-20 h-20 rounded-full bg-[#f29ca3] opacity-10"></div>
+              <div className="absolute w-40 h-40 rounded-full -top-20 -right-20 bg-main-border opacity-10"></div>
+              <div className="absolute w-20 h-20 rounded-full -bottom-10 -left-10 bg-ternary-pink opacity-10"></div>
 
-              <h2 className="text-2xl font-bold text-[#1c1c1e] mb-6 relative z-10">
+              <h2 className="relative z-10 mb-6 text-2xl font-bold text-primary">
                 Send Us a Message
               </h2>
 
               {submitted ? (
-                <div className="bg-[#a9e5bb] bg-opacity-20 p-6 rounded-lg border border-[#4caf50] text-center h-[90%] flex items-center justify-center flex-col">
-                  <div className="mx-auto w-12 h-12 bg-[#4caf50] rounded-full flex items-center justify-center mb-4">
+                <div className="bg-ternary-mint bg-opacity-20 p-6 rounded-lg border border-accent-green text-center h-[90%] flex items-center justify-center flex-col">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full bg-accent-green">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-6 h-6 text-white"
@@ -182,10 +183,10 @@ function Contact() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-semibold text-[#1c1c1e] mb-2">
+                  <h3 className="mb-2 text-2xl font-semibold text-primary">
                     Message Sent!
                   </h3>
-                  <p className="text-[#3a3a3c] text-lg">
+                  <p className="text-lg text-tertiary">
                     Thank you for reaching out. We'll get back to you shortly.
                   </p>
                 </div>
@@ -198,7 +199,7 @@ function Contact() {
                     <div>
                       <label
                         htmlFor="name"
-                        className="block text-sm font-medium text-[#3a3a3c] mb-1"
+                        className="block mb-1 text-sm font-medium text-tertiary"
                       >
                         Your Name
                       </label>
@@ -209,7 +210,7 @@ function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-[#f2f2f7] focus:outline-none focus:ring-2 focus:ring-[#4a6cf7] focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 transition-colors border rounded-lg border-accent-blue focus:outline-none focus:ring-2 focus:ring-main-border focus:border-transparent"
                         placeholder="John Doe"
                       />
                     </div>
@@ -217,7 +218,7 @@ function Contact() {
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-[#3a3a3c] mb-1"
+                        className="block mb-1 text-sm font-medium text-tertiary"
                       >
                         Your Email
                       </label>
@@ -228,7 +229,7 @@ function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-[#f2f2f7] focus:outline-none focus:ring-2 focus:ring-[#4a6cf7] focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 transition-colors border rounded-lg border-accent-blue focus:outline-none focus:ring-2 focus:ring-main-border focus:border-transparent"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -237,7 +238,7 @@ function Contact() {
                   <div>
                     <label
                       htmlFor="subject"
-                      className="block text-sm font-medium text-[#3a3a3c] mb-1"
+                      className="block mb-1 text-sm font-medium text-tertiary"
                     >
                       Subject
                     </label>
@@ -248,7 +249,7 @@ function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-[#f2f2f7] focus:outline-none focus:ring-2 focus:ring-[#4a6cf7] focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 transition-colors border rounded-lg border-accent-blue focus:outline-none focus:ring-2 focus:ring-main-border focus:border-transparent"
                       placeholder="How can we help you?"
                     />
                   </div>
@@ -256,7 +257,7 @@ function Contact() {
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-[#3a3a3c] mb-1"
+                      className="block mb-1 text-sm font-medium text-tertiary"
                     >
                       Message
                     </label>
@@ -267,14 +268,14 @@ function Contact() {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className="w-full px-4 py-3 rounded-lg border border-[#f2f2f7] focus:outline-none focus:ring-2 focus:ring-[#4a6cf7] focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 transition-colors border rounded-lg border-accent-blue focus:outline-none focus:ring-2 focus:ring-main-border focus:border-transparent"
                       placeholder="Tell us how we can assist you..."
                     ></textarea>
                   </div>
 
                   <button
                     type="submit"
-                    className="flex cursor-pointer items-center justify-center w-full px-6 py-3 bg-[#4a6cf7] hover:scale-95 transition duration-500 text-white font-medium rounded-lg shadow-md hover:bg-[#4a6cf7]/85 "
+                    className="flex items-center justify-center w-full px-6 py-3 font-medium text-white transition duration-500 rounded-lg shadow-md cursor-pointer bg-main-border hover:scale-95 hover:bg-main-border/85 "
                   >
                     Send Message
                     <i class="ri-send-plane-line ml-2 text-xl"></i>

@@ -7,7 +7,7 @@ function Navbar() {
 
   return (
     <>
-      <header className="w-full bg-[#4a6cf7]/8 absolute top-0 left-0 z-50">
+      <header className="absolute top-0 left-0 z-50 w-full bg-main-border/8">
         <nav className="z-20 flex items-center justify-between px-6 py-6 mx-auto max-w-7xl md:px-12">
           {/* Logo */}
           <Link
@@ -21,19 +21,19 @@ function Navbar() {
           <div className="hidden space-x-10 text-lg font-medium md:flex text-primary">
             <Link
               to="/books"
-              className="hover:text-[#4a6cf7] transition hover:scale-105 duration-300"
+              className="transition duration-300 hover:text-main-border hover:scale-105"
             >
               Books
             </Link>
             <Link
               to="/about"
-              className="hover:text-[#4a6cf7] transition hover:scale-105 duration-300"
+              className="transition duration-300 hover:text-main-border hover:scale-105"
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="hover:text-[#4a6cf7] transition hover:scale-105 duration-300"
+              className="transition duration-300 hover:text-main-border hover:scale-105"
             >
               Contact
             </Link>
@@ -76,25 +76,25 @@ function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="absolute z-50 top-full left-0 w-full backdrop-blur-sm bg-[#4a6cf7]/6 text-lg px-6 pb-6 pt-4 space-y-4 text-primary font-medium shadow-md md:hidden"
+              className="absolute left-0 z-50 w-full px-6 pt-4 pb-6 space-y-4 text-lg font-medium shadow-md top-full backdrop-blur-sm bg-main-border/6 text-primary md:hidden"
             >
               <Link
                 to="/books"
-                className="block hover:text-[#4a6cf7] transition"
+                className="block transition hover:text-main-border"
                 onClick={() => setIsOpen(false)}
               >
                 Books
               </Link>
               <Link
                 to="/about"
-                className="block hover:text-[#4a6cf7] transition"
+                className="block transition hover:text-main-border"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="block hover:text-[#4a6cf7] transition"
+                className="block transition hover:text-main-border"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
