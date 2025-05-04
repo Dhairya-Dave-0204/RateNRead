@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { AppContext } from "../../context/AppContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useContext(AppContext);
 
   return (
     <>
@@ -37,6 +39,14 @@ function Navbar() {
             >
               Contact
             </Link>
+            {user && (
+              <Link
+                to="/profile"
+                className="transition duration-300 hover:text-main-border hover:scale-105"
+              >
+                Profile
+              </Link>
+            )}
           </div>
 
           {/* Hamburger for Mobile */}
@@ -98,6 +108,13 @@ function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                to="/profile"
+                className="block transition hover:text-main-border"
+                onClick={() => setIsOpen(false)}
+              >
+                Profile
               </Link>
             </motion.div>
           )}
