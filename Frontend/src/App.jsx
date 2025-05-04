@@ -1,29 +1,40 @@
+import React, { useContext } from "react";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
-import AppContextProvider from "./context/AppContext";
-import { Home, Contact, About, FAQ, Books } from "./pages/page_index";
-import { Footer, Navbar } from "./components/component_index";
 import { AppContext } from "./context/AppContext";
-import { useContext } from "react";
+import { Home, Contact, About, FAQ, Books } from "./pages/page_index";
+import { Footer, Navbar, Sidebar } from "./components/component_index";
 
 function App() {
+  const {user} = useContext(AppContext)
 
   return (
     <>
-      <AppContextProvider>
         <ToastContainer position="bottom-right" autoClose={3000} />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/faq" element={<FAQ />} />
-        </Routes>
-        <Footer />
-      </AppContextProvider>
+        {!user ? (
+          <>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/books" element={<Books />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/faq" element={<FAQ />} />
+            </Routes>
+            <Footer />
+          </>
+        ) : (
+          <>
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <div className="flex-1 p-5">
+                
+              </div>
+            </div>
+          </>
+        )}
     </>
   );
 }
