@@ -2,12 +2,14 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
-import { AppContext } from "./context/AppContext";
 import AppContextProvider from "./context/AppContext";
-import { Home, Contact, About, FAQ } from "./pages/page_index";
+import { Home, Contact, About, FAQ, Books } from "./pages/page_index";
 import { Footer, Navbar } from "./components/component_index";
+import { AppContext } from "./context/AppContext";
+import { useContext } from "react";
 
 function App() {
+
   return (
     <>
       <AppContextProvider>
@@ -15,6 +17,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/books" element={<Books />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
