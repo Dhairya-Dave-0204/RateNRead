@@ -18,6 +18,18 @@ export const createUser = async (username, email, hashedPassword) => {
   }
 };
 
+// Find user by id
+export const findUserById = async (id) => {
+  try {
+    const result = await dbPool.query("SELECT * FROM users WHERE id = $1", [
+      id,
+    ]);
+    return result.rows[0];
+  } catch (error) {
+    console.log("Error finding user by id" + error);
+  }
+};
+
 // Find user by using email
 export const findUserByEmail = async (email) => {
   try {
