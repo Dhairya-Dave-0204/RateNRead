@@ -99,7 +99,7 @@ passport.deserializeUser(async (token, cb) => {
       });
     return cb(null, user);
   } catch (error) {
-    console.log("Error Deserialization of the user" + error);
+    console.log("Error Deserialization of the user  " + error);
     return cb(error);
   }
 });
