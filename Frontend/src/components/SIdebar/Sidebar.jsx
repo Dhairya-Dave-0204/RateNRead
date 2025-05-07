@@ -66,10 +66,10 @@ function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle */}
+      {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed z-50 p-2 rounded-lg md:hidden top-5 left-3"
+        className="absolute z-50 block p-2 rounded-lg md:hidden top-5 left-4"
       >
         <svg
           className="w-6 h-6 text-primary"
@@ -94,14 +94,23 @@ function Sidebar() {
         </svg>
       </button>
 
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/70 backdrop-blur-sm md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 w-64 h-full transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out bg-gradient-to-b from-[#fdfbff] via-[#f4f5fa] to-[#eceffd] shadow-xl`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transform bg-gradient-to-b from-[#fdfbff] via-[#f4f5fa] to-[#eceffd] shadow-xl transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
       >
         <div className="flex items-center justify-center h-20 border-b border-gray-300">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-main-border to-ternary-pink">RatenRead</h1>
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-main-border to-ternary-pink">
+            RatenRead
+          </h1>
         </div>
         <nav className="p-6 space-y-8">
           {menuItems.map(({ name, to, icon }) => (

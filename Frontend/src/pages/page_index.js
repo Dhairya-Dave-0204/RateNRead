@@ -5,6 +5,7 @@ import FAQ from "./FAQ/FAQ";
 import Books from "./Books/Books";
 import SignIn from "./SIgnIn/SignIn";
 import SignUp from "./SignUp/SignUp";
+import Profile from "./Profile/Profile";
 
 export {
     Home,
@@ -14,4 +15,5 @@ export {
     Books,
     SignIn,
     SignUp,
+    Profile,
 }
