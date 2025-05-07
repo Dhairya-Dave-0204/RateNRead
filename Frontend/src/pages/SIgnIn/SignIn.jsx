@@ -92,7 +92,7 @@ function SignIn() {
                         type="checkbox"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
-                        className="h-4 w-4 text-[#4a6cf7] rounded border-[#3a3a3c] focus:ring-[#4a6cf7]"
+                        className="h-4 w-4 text-[#4a6cf7] rounded cursor-pointer border-[#3a3a3c] focus:ring-[#4a6cf7]"
                       />
                       <label
                         htmlFor="remember"
@@ -114,7 +114,7 @@ function SignIn() {
                   {/* Sign In Button */}
                   <button
                     type="submit"
-                    className="w-full bg-[#4a6cf7] text-white py-3 rounded-lg flex items-center justify-center hover:bg-[#4a6cf7]/90 transition-colors"
+                    className="w-full bg-[#4a6cf7] text-white py-3 cursor-pointer rounded-lg flex items-center justify-center hover:bg-[#4a6cf7]/85 duration-300 transition-colors"
                   >
                     <span>Sign in</span>
                     <i className="ml-2 text-lg ri-arrow-right-line"></i>
@@ -135,7 +135,7 @@ function SignIn() {
                   <div>
                     <button
                       type="button"
-                      className="w-full flex justify-center items-center py-3 px-4 border border-[#3a3a3c] rounded-lg shadow-sm bg-white hover:bg-[#f2f2f7] transition-colors"
+                      className="w-full cursor-pointer flex justify-center items-center py-3 px-4 border border-[#3a3a3c] rounded-lg shadow-sm bg-white hover:bg-[#f2f2f7] transition-colors"
                     >
                       <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                         <path
