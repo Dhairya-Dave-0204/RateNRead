@@ -41,7 +41,7 @@ passport.use(
       await deleteSessions(user.id);
       const session = await createSession(user.id);
 
-      user.sessionToken = session.token;
+      user.sessionToken = session.session_token;
       return cb(null, user);
     } catch (error) {
       console.log("Error using the local strategy for management" + error);
@@ -68,7 +68,7 @@ passport.use(
 
         await deleteSessions(user.id);
         const session = await createSession(user.id);
-        user.sessionToken = session.token;
+        user.sessionToken = session.session_token;
         return cb(null, user);
       } catch (error) {
         console.log("Error authenticating with google" + error);
@@ -86,7 +86,7 @@ passport.serializeUser((user, cb) => {
 // Deserialization: get the user from the session token
 passport.deserializeUser(async (token, cb) => {
   try {
-    const session = await findSessionByToken(toekn);
+    const session = await findSessionByToken(token);
     if (!session)
       return cb(null, false, {
         message: "Error findind the session for Deserialization",

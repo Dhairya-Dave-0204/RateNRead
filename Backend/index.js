@@ -10,6 +10,8 @@ import session from "express-session"; // used to establish session using expres
 import connectPgSimple from "connect-pg-simple"; // used to manage sessions in postgres database
 import dbPool from "./config/db.js";
 import passport from "passport";
+import authRouter from "./routes/authRoutes.js"
+import "./config/passport.js  "
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,7 +41,7 @@ app.use(
 );
 
 // setup ffor the usage of ROUTES
-app.use("/api")
+app.use("/api", authRouter);
 
 // setup of the passport for authentication session
 app.use(passport.initialize());

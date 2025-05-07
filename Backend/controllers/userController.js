@@ -3,16 +3,16 @@
 */
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { createUser, findUserByEmail } from "../models/userModel";
+import { createUser, findUserByEmail } from "../models/userModel.js";
 
-// Function to register new user to the website
-export const registerUser = async (req, res) => {
+// Function to register new user to the website (Handle manual registration)
+export async function handleRegister(req, res) {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
     return res.send({
       success: false,
-      message: "Missing valuses via userController",
+      message: "Please fill in all fields via userController",
     });
   }
 
@@ -28,68 +28,67 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await createUser(username, email, hashedPassword);
 
-    req.login(newUser, (error) => {
-      if (error) {
+    // Auto-login after registration
+    req.login(newUser, (err) => {
+      if (err) {
         return res.send({
-          success: true,
-          message: "Error logging in after registration via userController",
+          success: false,
+          message: "Login after registration failed via userController",
         });
       }
-      return res.send({ success: true, message: "Registration successful" });
-    });
-  } catch (error) {
-    console.log("Error creating a user via userController" + error);
-    res.send({
-      success: false,
-      message: "Registration failed via userController",
-    });
-  }
-};
-
-// Function to login existing user
-export const loginUser = async (req, res, cb) => {
-  passport.authenticate("local", (error, user, info) => {
-    if (error) return cb(error);
-    if (!user)
       return res.send({
         success: true,
-        message: "Invalid credentials for login via userController",
+        message: "Registration successful via userController",
       });
-
-    req.login(user, (error) => {
-      if (error) return cb(error);
-
-      return res.send({ success: true, message: "Login successful", user });
     });
-  });
-  req, res, cb;
-};
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.send({
+      success: false,
+      message: "Server error during registration via userController",
+    });
+  }
+}
 
-// Function to logout
-const logoutUser = async (req, res) => {
-  req.logout((error) => {
-    if (error) {
-      console.log("Error logging out via userController" + error);
+// Function to login existing user (Handle manual login using passport local strategy)
+export function handleLogin(req, res, next) {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user)
       return res.send({
         success: false,
-        message: "Logout failed via userController",
+        message: info.message + "via userController",
       });
+
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return res.send({
+        success: true,
+        message: "Login successful via userController",
+        user,
+      });
+    });
+  })(req, res, next);
+}
+
+// Function to logout
+export function handleLogout(req, res) {
+  req.logout((err) => {
+    if (err) {
+      return res.send({ success: false, message: "Logout failed" });
     }
     res.redirect("/");
   });
-};
+}
 
-// Function to check authentication status
-export const checkAuthStatus = (req, res) => {
+// Function to check authentication status (check active session)
+export function handleSessionCheck(req, res) {
   if (req.isAuthenticated()) {
-    return res.send({
-      success: true,
-      message: "Session active via userController",
-      user: req.user,
+    res.send({ success: true, user: req.user + "via userController" });
+  } else {
+    res.send({
+      success: false,
+      message: "No active session via userController",
     });
   }
-  return res.send({
-    success: false,
-    message: "No active session via userController",
-  });
-};
+}

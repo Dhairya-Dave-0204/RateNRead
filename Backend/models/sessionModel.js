@@ -7,7 +7,7 @@ export async function createSession(userId) {
     const sessionToken = uuidv4();
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // expires in 24 hours
 
-    const query = `INSERT INTO (user_id, session_token, expires_at) sessions VALUES ($1, $2, $3) RETURNING *;`;
+    const query = `INSERT INTO sessions (user_id, session_token, expires_at) VALUES ($1, $2, $3) RETURNING *;`;
     const values = [userId, sessionToken, expiresAt];
 
     const result = await dbPool.query(query, values);
