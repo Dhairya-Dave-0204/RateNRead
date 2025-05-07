@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
 import { AppContext } from "./context/AppContext";
-import { Home, Contact, About, FAQ, Books, SignIn } from "./pages/page_index";
+import { Home, Contact, About, FAQ, Books, SignIn, SignUp } from "./pages/page_index";
 import { Footer, Navbar, Sidebar } from "./components/component_index";
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/books" element={<Books />} />
               <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route path="/faq" element={<FAQ />} />
