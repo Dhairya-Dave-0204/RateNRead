@@ -38,6 +38,9 @@ app.use(
   })
 );
 
+// setup ffor the usage of ROUTES
+app.use("/api")
+
 // setup of the passport for authentication session
 app.use(passport.initialize());
 app.use(passport.session());
