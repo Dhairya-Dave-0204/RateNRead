@@ -39,13 +39,24 @@ function Navbar() {
             >
               Contact
             </Link>
-            {user && (
-              <Link
-                to="/profile"
-                className="transition duration-300 hover:text-main-border hover:scale-105"
-              >
-                Profile
-              </Link>
+            {user ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="transition duration-300 hover:text-main-border hover:scale-105"
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  className="transition duration-300 hover:text-main-border hover:scale-105"
+                >
+                  Join Now
+                </Link>
+              </>
             )}
           </div>
 
@@ -109,13 +120,28 @@ function Navbar() {
               >
                 Contact
               </Link>
-              <Link
-                to="/profile"
-                className="block transition hover:text-main-border"
-                onClick={() => setIsOpen(false)}
-              >
-                Profile
-              </Link>
+
+              {user ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="block transition hover:text-main-border"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/signin"
+                    className="block transition hover:text-main-border"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Join Now
+                  </Link>
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

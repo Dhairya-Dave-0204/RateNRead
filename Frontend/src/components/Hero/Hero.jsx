@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -97,7 +99,7 @@ function Hero() {
           {/* CTA Button with gradient animation */}
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-main-border to-ternary-pink rounded-full opacity-75 blur-sm group-hover:opacity-100 transition duration-500"></div>
-            <button className="relative flex items-center justify-center px-8 py-4 font-medium transition duration-300 bg-white rounded-full cursor-pointer text-primary group-hover:text-main-border">
+            <button onClick={() => navigate("/signin")} className="relative flex items-center justify-center px-8 py-4 font-medium transition duration-300 bg-white rounded-full cursor-pointer text-primary group-hover:text-main-border">
               <span>Start Your Library</span>
               <i className="ml-2 text-2xl transition-transform duration-300 ri-arrow-right-line group-hover:translate-x-1"></i>
             </button>

@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Steps() {
+  const navigate = useNavigate();
+  
   const steps = [
     {
       id: 1,
@@ -200,7 +203,7 @@ function Steps() {
                 Begin tracking your literary adventures and create a
                 personalized record of your reading experiences.
               </p>
-              <button className="px-8 py-3 font-medium text-white transition duration-300 rounded-lg cursor-pointer bg-gradient-to-r from-main-border to-ternary-pink hover:shadow-lg">
+              <button onClick={() => navigate("/signin")} className="px-8 py-3 font-medium text-white transition duration-300 rounded-lg cursor-pointer bg-gradient-to-r from-main-border to-ternary-pink hover:shadow-lg">
                 Create Your Library Now
               </button>
             </div>
