@@ -1,8 +1,27 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify"
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const { backendUrl, setUser } = useContext(AppContext)
+
+  
+  const handleLogout = async () => {
+    try {
+      await axios.get(`${backendUrl}/api/auth/logout`, { withCredentials: true })
+      setUser(null)
+      toast.success("Logout successfull")
+      navigate("/")
+    } catch (error) {
+      console.error("Failed to logout")
+      toast.error("Failed to logout")
+    }
+  }
 
   const menuItems = [
     {
@@ -23,6 +42,7 @@ function Sidebar() {
           />
         </svg>
       ),
+      action: () => navigate("/profile"),
     },
     {
       name: "Library",
@@ -42,6 +62,7 @@ function Sidebar() {
           />
         </svg>
       ),
+      action: () => navigate("/library"),
     },
     {
       name: "Logout",
@@ -61,6 +82,7 @@ function Sidebar() {
           />
         </svg>
       ),
+      action: handleLogout,
     },
   ];
 
@@ -105,7 +127,9 @@ function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 z-40 w-64 h-screen transform bg-gradient-to-b from-[#fdfbff] via-[#f4f5fa] to-[#eceffd] shadow-xl transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
+        ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static`}
       >
         <div className="flex items-center justify-center h-20 border-b border-gray-300">
           <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-main-border to-ternary-pink">
@@ -113,16 +137,18 @@ function Sidebar() {
           </h1>
         </div>
         <nav className="p-6 space-y-8">
-          {menuItems.map(({ name, to, icon }) => (
-            <NavLink
+          {menuItems.map(({ name, action, icon }) => (
+            <button
               key={name}
-              to={to}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                action();
+                setIsOpen(false);
+              }}
               className="flex items-center text-lg font-medium text-gray-800 hover:text-[#4a6cf7] duration-500 transition-all"
             >
               {icon}
               {name}
-            </NavLink>
+            </button>
           ))}
         </nav>
       </aside>
