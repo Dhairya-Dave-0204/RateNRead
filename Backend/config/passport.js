@@ -24,7 +24,7 @@ import {
 // Local strategy setup for enabling the local sessions and user management
 passport.use(
   "local",
-  new LocalStrategy(async (email, password, cb) => {
+  new LocalStrategy({ usernameField: "email" }, async (email, password, cb) => {
     try {
       // Finding user by using the email and checking if the user exist or not
       const user = await findUserByEmail(email);
@@ -41,7 +41,7 @@ passport.use(
       await deleteSessions(user.id);
       const session = await createSession(user.id);
 
-      user.sessionToken = session.session_token;
+      user.session_token = session.session_token;
       return cb(null, user);
     } catch (error) {
       console.log("Error using the local strategy for management" + error);
@@ -49,7 +49,6 @@ passport.use(
     }
   })
 );
-
 
 // Google strategy setup for enabling the google sessions and user management
 passport.use(
@@ -69,7 +68,7 @@ passport.use(
 
         await deleteSessions(user.id);
         const session = await createSession(user.id);
-        user.sessionToken = session.session_token;
+        user.session_token = session.session_token;
         return cb(null, user);
       } catch (error) {
         console.log("Error authenticating with google" + error);
@@ -88,7 +87,7 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser(async (session_token, cb) => {
   try {
     const session = await findSessionByToken(session_token);
-    if (!session) 
+    if (!session)
       return cb(null, false, {
         message: "Error finding the session for Deserialization",
       });
