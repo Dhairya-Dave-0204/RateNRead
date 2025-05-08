@@ -54,11 +54,12 @@ export async function handleRegister(req, res) {
 export function handleLogin(req, res, next) {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
-    if (!user)
+    if (!user) {
       return res.send({
         success: false,
         message: info.message + "via userController",
       });
+    }
 
     req.login(user, (err) => {
       if (err) return next(err);

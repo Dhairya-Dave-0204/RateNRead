@@ -1,13 +1,35 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  const [user, setUser] = useState(true);
+  // State that checks users presence
+  const [user, setUser] = useState(null);
+  const backendUrl = import.meta.env.BACKEND_URL
+
+  // Function to fetch Logged-In User on App Load
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/auth/check", {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      } catch (err) {
+        console.error("Not logged in or session expired. Error via AppContext");
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const value = {
     user,
     setUser,
+    backendUrl,
   };
 
   return (

@@ -80,19 +80,13 @@ passport.use(
 
 // Serialization: store onlt the session token
 passport.serializeUser((user, cb) => {
-  cb(null, user.session_token);
+  cb(null, user.id);
 });
 
 // Deserialization: get the user from the session token
-passport.deserializeUser(async (session_token, cb) => {
+passport.deserializeUser(async (id, cb) => {
   try {
-    const session = await findSessionByToken(session_token);
-    if (!session)
-      return cb(null, false, {
-        message: "Error finding the session for Deserialization",
-      });
-
-    const user = await findUserById(session.user_id);
+    const user = await findUserById(id);
     if (!user)
       return cb(null, false, {
         message: "Error finding the user for Deserialization",
