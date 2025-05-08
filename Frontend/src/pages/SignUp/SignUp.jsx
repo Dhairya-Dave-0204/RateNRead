@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -9,7 +13,9 @@ function SignUp() {
   });
 
   const [errors, setErrors] = useState({});
-  
+  const { setUser, backendUrl } = useContext(AppContext);
+  const navigate = useNavigate();
+
   // Add state for password visibility
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -54,8 +60,8 @@ function SignUp() {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -65,7 +71,7 @@ function SignUp() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validate();
@@ -74,16 +80,27 @@ function SignUp() {
       return;
     }
 
-    // Here you would handle the signup process
-    console.log("Form submitted:", formData);
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/auth/register`,
+        { username: formData.username, email: formData.email, password: formData.password },
+        { credentials: "include" }
+      );
 
-    // Reset form after submission
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+      const data = response.data;
+      if (data.success) {
+        toast.error("Error in creating an account. Try again")
+      }
+      
+      setUser(true)
+      toast.success("Registration successful");
+      navigate("/profile")
+      
+    } catch (error) {
+      console.log("Error while manual registration");
+      setErrors({ server: "Server error. Please try again later." });
+      toast.error("Registration unsuccessful");
+    }
   };
 
   // Icons
@@ -322,7 +339,9 @@ function SignUp() {
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="focus:outline-none"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                   </button>
@@ -363,7 +382,9 @@ function SignUp() {
                     type="button"
                     onClick={toggleConfirmPasswordVisibility}
                     className="focus:outline-none"
-                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showConfirmPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
                   </button>
@@ -386,6 +407,12 @@ function SignUp() {
               </button>
             </div>
           </form>
+          
+          {errors.server && (
+            <p className="mt-2 text-sm text-center text-red-600">
+              {errors.server}
+            </p>
+          )}
 
           {/* Divider */}
           <div className="flex items-center justify-center mt-6">
