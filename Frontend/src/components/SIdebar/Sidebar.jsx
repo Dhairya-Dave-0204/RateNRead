@@ -1,27 +1,29 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import axios from "axios";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { backendUrl, setUser } = useContext(AppContext)
+  const { backendUrl, setUser } = useContext(AppContext);
 
-  
   const handleLogout = async () => {
     try {
-      await axios.get(`${backendUrl}/api/auth/logout`, { withCredentials: true })
-      setUser(null)
-      toast.success("Logout successfull")
-      navigate("/")
+      await axios.get(`${backendUrl}/api/auth/logout`, {
+        withCredentials: true,
+      });
+      setUser(null);
+      toast.success("Logout successfull");
+      navigate("/");
     } catch (error) {
-      console.error("Failed to logout")
-      toast.error("Failed to logout")
+      console.error("Failed to logout");
+      toast.error("Failed to logout");
     }
-  }
+  };
 
   const menuItems = [
     {
@@ -137,19 +139,27 @@ function Sidebar() {
           </h1>
         </div>
         <nav className="p-6 space-y-8">
-          {menuItems.map(({ name, action, icon }) => (
-            <button
-              key={name}
-              onClick={() => {
-                action();
-                setIsOpen(false);
-              }}
-              className="flex items-center text-lg font-medium text-gray-800 hover:text-[#4a6cf7] duration-500 transition-all"
-            >
-              {icon}
-              {name}
-            </button>
-          ))}
+          {menuItems.map(({ name, action, icon, to }) => {
+            const isActive = location.pathname === to;
+
+            return (
+              <button
+                key={name}
+                onClick={() => {
+                  action();
+                  setIsOpen(false);
+                }}
+                className={`flex items-center w-full text-left text-lg font-medium transition-all duration-300 rounded-md px-2 py-2 ${
+                  isActive
+                    ? "text-[#4a6cf7] bg-[#e1e9ff]"
+                    : "text-gray-800 hover:text-[#4a6cf7] hover:bg-[#f0f4ff]"
+                }`}
+              >
+                {icon}
+                {name}
+              </button>
+            );
+          })}
         </nav>
       </aside>
     </>

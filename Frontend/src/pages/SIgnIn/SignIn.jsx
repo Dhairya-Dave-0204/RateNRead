@@ -24,8 +24,8 @@ function SignIn() {
         { email, password },
         { withCredentials: true }
       );
-      const userData = response.data.user;
-      setUser(userData);
+
+      setUser(true);
       toast.success("Sigin in successfully!");
       navigate("/profile");
     } catch (error) {
