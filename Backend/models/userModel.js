@@ -4,17 +4,32 @@ All functionality involving the user is defined here.
 */
 
 import dbPool from "../config/db.js";
+import { createSession, deleteSessions, findSessionByToken } from "./sessionModel.js"
 
 // Insert new user to the database, (User Registration)
 export const createUser = async (username, email, hashedPassword) => {
   try {
+    // Create the user in the users table
     const result = await dbPool.query(
       "INSERT INTO users (username, email, pass) VALUES ($1, $2, $3) RETURNING *",
       [username, email, hashedPassword]
     );
-    return result.rows[0];
+
+    // Get the new user's ID
+    const newUser = result.rows[0];
+
+    // Create a session for the new user
+    const session = await createSession(newUser.id);
+
+    // Ensure that session_token is added to the user object
+    newUser.sid = session.sid
+    newUser.session_token = session.session_token;
+    newUser.sess = session.sess
+
+    return newUser;  // Return the user along with the session token
   } catch (error) {
-    console.log("Error creating new user" + error);
+    console.log("Error creating new user", error);
+    throw error;  // Rethrow the error after logging it
   }
 };
 

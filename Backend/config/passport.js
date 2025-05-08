@@ -5,8 +5,8 @@ Local strategy and Google strategy are implemented for authentication.
 
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { LocalStrategy } from "passport-local";
-import { GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import {
   findUserById,
@@ -50,12 +50,13 @@ passport.use(
   })
 );
 
+
 // Google strategy setup for enabling the google sessions and user management
 passport.use(
   "google",
   new GoogleStrategy(
     {
-      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
@@ -80,16 +81,16 @@ passport.use(
 
 // Serialization: store onlt the session token
 passport.serializeUser((user, cb) => {
-  cb(null, user.sessionToken);
+  cb(null, user.session_token);
 });
 
 // Deserialization: get the user from the session token
-passport.deserializeUser(async (token, cb) => {
+passport.deserializeUser(async (session_token, cb) => {
   try {
-    const session = await findSessionByToken(token);
-    if (!session)
+    const session = await findSessionByToken(session_token);
+    if (!session) 
       return cb(null, false, {
-        message: "Error findind the session for Deserialization",
+        message: "Error finding the session for Deserialization",
       });
 
     const user = await findUserById(session.user_id);
