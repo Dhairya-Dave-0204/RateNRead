@@ -3,7 +3,6 @@ import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { GoogleLogin } from "@react-oauth/google";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -35,28 +34,10 @@ function SignIn() {
   };
 
   // Handle Google login success
-  const handleGoogleSuccess = async (response) => {
-    const token = response.credential;
-
-    try {
-      const res = await axios.post(
-        `${backendUrl}/api/auth/google`,
-        { token },
-        { withCredentials: true }
-      );
-      setUser(res.data.user);
-      toast.success("Google Sign-in successful!");
-      navigate("/profile");
-    } catch (err) {
-      toast.error("Google Sign-in failed via success function");
-    }
+  const handleGoogleSignIn = () => {
+    window.location.href = `${backendUrl}/api/auth/google`;
   };
-
-  // Handle Google login error
-  const handleGoogleError = (error) => {
-    toast.error("Google Sign-in failed");
-  };
-
+  
   return (
     <>
       <div className="min-h-screen bg-[#f8f8ff] flex flex-col">
@@ -111,6 +92,7 @@ function SignIn() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        minLength={8} maxLength={16}
                         className="w-full p-3 pl-10 pr-10 rounded-lg border border-[#3a3a3c] focus:outline-none focus:ring-2 focus:ring-[#4a6cf7] focus:border-transparent"
                         placeholder="••••••••"
                       />
@@ -178,12 +160,14 @@ function SignIn() {
                   </div>
 
                   <div>
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={handleGoogleError}
-                      useOneTap
-                      redirectUri="http://localhost:5173/profile"
-                    />
+                  <button
+                    type="button"
+                    onClick={handleGoogleSignIn}
+                    className="w-full py-3 rounded-lg border border-[#3a3a3c] text-[#1c1c1e] hover:bg-[#f0f0f0] transition duration-300"
+                  >
+                    <i className="mr-2 text-main-border ri-google-fill"></i>
+                    Continue with Google
+                  </button>
                   </div>
 
                   {/* Sign Up Link */}

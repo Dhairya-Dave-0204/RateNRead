@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -71,6 +72,7 @@ function SignUp() {
     return newErrors;
   };
 
+  // Function to handle manual user registration
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,25 +85,56 @@ function SignUp() {
     try {
       const response = await axios.post(
         `${backendUrl}/api/auth/register`,
-        { username: formData.username, email: formData.email, password: formData.password },
-        { credentials: "include" }
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        },
+        { withCredentials: true }
       );
 
-      const data = response.data;
-      if (data.success) {
-        toast.error("Error in creating an account. Try again")
+      if (response.data.success) {
+        toast.success("Registered successfully");
+        setUser(true);
+        navigate("/profile");
+      } else {
+        toast.error("Registration failed");
       }
-      
-      setUser(true)
-      toast.success("Registration successful");
-      navigate("/profile")
-      
     } catch (error) {
       console.log("Error while manual registration");
-      setErrors({ server: "Server error. Please try again later." });
-      toast.error("Registration unsuccessful");
+      const message =
+        error.response?.data?.message ||
+        "Server error. Please try again later.";
+      setErrors({ server: message });
+      toast.error(message);
     }
   };
+
+  // Functions to handle google registrations
+  const googleSuccess = async (credentialResponse) => {
+    try {
+      const res = await axios.post(
+        `${backendUrl}/api/auth/google`,
+        { credential: credentialResponse.credential },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success("Registration successful");
+        setUser(true);
+        navigate("/profile");
+      } else {
+        toast.error("Google sign-up failed");
+      }
+    } catch (err) {
+      console.error("Google SignUp error", err);
+      toast.error("Google sign-up failed");
+    }
+  };
+
+  const googleFailure = (error) => {
+    toast.error("Google sign-up was unsuccessful");
+    console.log(error)
+  }
 
   // Icons
   const EmailIcon = () => (
@@ -268,6 +301,7 @@ function SignUp() {
                 <input
                   type="text"
                   name="username"
+                  required
                   id="username"
                   value={formData.username}
                   onChange={handleChange}
@@ -298,6 +332,7 @@ function SignUp() {
                   type="email"
                   name="email"
                   id="email"
+                  required
                   value={formData.email}
                   onChange={handleChange}
                   className={`block w-full pl-10 pr-3 py-3 border ${
@@ -327,6 +362,7 @@ function SignUp() {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
+                  required
                   value={formData.password}
                   onChange={handleChange}
                   className={`block w-full pl-10 pr-10 py-3 border ${
@@ -368,6 +404,7 @@ function SignUp() {
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   id="confirmPassword"
+                  required
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className={`block w-full pl-10 pr-10 py-3 border ${
@@ -407,7 +444,7 @@ function SignUp() {
               </button>
             </div>
           </form>
-          
+
           {errors.server && (
             <p className="mt-2 text-sm text-center text-red-600">
               {errors.server}
@@ -415,20 +452,18 @@ function SignUp() {
           )}
 
           {/* Divider */}
-          <div className="flex items-center justify-center mt-6">
+          <div className="flex items-center justify-center mt-6 mb-4">
             <div className="flex-grow mr-3 border-t border-gray-300"></div>
             <span className="text-sm text-gray-500">Or continue with</span>
             <div className="flex-grow ml-3 border-t border-gray-300"></div>
           </div>
 
           {/* Google Sign Up Button */}
-          <button
-            type="button"
-            className="flex items-center justify-center w-full gap-2 px-4 py-3 mt-4 text-sm font-medium text-gray-700 transition duration-150 bg-white border border-gray-300 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <GoogleIcon />
-            Sign up with Google
-          </button>
+          <GoogleLogin 
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            useOneTap
+          />
 
           {/* Already have an account */}
           <div className="mt-6 text-center">
