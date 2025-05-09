@@ -1,3 +1,10 @@
+/*
+    This file contains the function to enter the books data into the database.
+    This logic is implemented only once throughout the project in the initial phase to store the books data
+    in the database to avoid multiple api calls for books data. This is viable only for small scale project and
+    a bit static book data
+*/
+
 import dbPool from "../config/db";
 
 export const insertBooks = async (books) => {
