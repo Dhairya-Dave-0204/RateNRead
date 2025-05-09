@@ -4,7 +4,7 @@ All functionality involving the user is defined here.
 */
 
 import dbPool from "../config/db.js";
-import { createSession, deleteSessions, findSessionByToken } from "./sessionModel.js"
+import { createSession } from "./sessionModel.js"
 
 // Insert new user to the database, (User Registration)
 export const createUser = async (username, email, hashedPassword) => {

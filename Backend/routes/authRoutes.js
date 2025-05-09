@@ -29,7 +29,7 @@ authRouter.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/login",
-    session: false,
+    successRedirect: "http://localhost:5173/profile",
   }),
   (req, res) => {
     res.redirect("/profile");

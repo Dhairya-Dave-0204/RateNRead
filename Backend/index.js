@@ -11,15 +11,16 @@ import connectPgSimple from "connect-pg-simple"; // used to manage sessions in p
 import dbPool from "./config/db.js";
 import passport from "passport";
 import { authRouter } from "./routes/authRoutes.js";
-import "./config/passport.js  ";
+import "./config/passport.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const PgSession = connectPgSimple(session); // decalration of the session management
 
-app.use(cors({ credentials: true, origin: "http://localhost:5173  " }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // setup of the session for the app
 app.use(
