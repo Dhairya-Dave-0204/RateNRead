@@ -154,7 +154,7 @@ function Footer() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="ml-2 text-xl font-bold">ReadnRate</span>
+                <span className="ml-2 text-xl font-bold">RatenRead</span>
               </div>
               <p className="max-w-xs mb-6 text-text-mute">
                 Your personal digital library that evolves with your reading
