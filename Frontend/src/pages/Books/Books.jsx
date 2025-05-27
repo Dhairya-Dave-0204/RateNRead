@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { BooksHeader } from "../../components/component_index";
 import { BOOKS_DATA, FEATURED_BOOKS } from "./bookData"
 
 const BookCard = ({ book, isFeatured = false }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   if (isFeatured) {
     return (
-      <div
-        className="relative flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden h-full transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+      <div className="relative flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden h-full transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg">
         <div className="w-full h-64 md:w-1/3 md:h-auto">
           <img
             src={book.cover}
@@ -26,7 +23,7 @@ const BookCard = ({ book, isFeatured = false }) => {
                 {book.title}
               </h3>
               <div className="flex items-center px-3 py-1 rounded-full bg-accent-blue">
-                <i className="w-4 h-4 mr-1 ri-star-line text-accent-gold fill-accent-gold"></i>
+                <i className="mr-1 text-yellow-600 ri-star-line"></i>
                 <span className="text-sm font-medium">{book.rating}</span>
               </div>
             </div>
@@ -34,30 +31,21 @@ const BookCard = ({ book, isFeatured = false }) => {
             <p className="mb-6 text-tertiary">{book.description}</p>
           </div>
           <div className="flex items-center justify-between">
-            <button className="flex items-center font-medium transition-colors duration-200 text-main-border hover:text-main-border/80">
+            <button onClick={() => navigate("/signin")} className="flex items-center font-medium transition-colors duration-200 cursor-pointer text-main-border hover:text-main-border/80">
               <span>View Details</span>
-              <i className="w-4 h-4 ml-1 ri-arrow-right-s-line"></i>
+              <i className="ml-1 ri-arrow-right-s-line"></i>
             </button>
-            <button className="px-4 py-2 font-medium text-white transition-colors duration-200 rounded-full bg-main-border hover:bg-main-border/90">
+            <button onClick={() => navigate("/signin")} className="px-4 py-2 font-medium text-white transition-colors duration-300 rounded-full cursor-pointer bg-main-border hover:bg-main-border/90">
               Add to Library
             </button>
           </div>
         </div>
-        {isHovered && (
-          <div className="absolute p-2 bg-white rounded-full shadow-md cursor-pointer top-4 right-4">
-            <i className="w-5 h-5 ri-heart-3-line text-ternary-pink"></i>
-          </div>
-        )}
       </div>
     );
   }
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-200 transform hover:scale-[1.03] hover:shadow-lg relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-200 transform hover:scale-[1.03] hover:shadow-lg relative">
       <div className="h-64 overflow-hidden">
         <img
           src={book.cover}
@@ -74,8 +62,8 @@ const BookCard = ({ book, isFeatured = false }) => {
             {book.title}
           </h3>
           <div className="flex items-center bg-accent-blue px-2 py-0.5 rounded-full">
-            <i className="w-3 h-3 mr-1 ri-star-line text-accent-gold fill-accent-gold"></i>
-            <span className="text-xs font-medium ">{book.rating}</span>
+            <i className="mr-1.5 ri-star-line text-yellow-600 text-lg"></i>
+            <span className="text-sm">{book.rating}</span>
           </div>
         </div>
         <p className="mb-3 text-sm text-text-mute">{book.author}</p>
@@ -96,19 +84,14 @@ const BookCard = ({ book, isFeatured = false }) => {
           )}
         </div>
         <div className="flex items-center justify-between">
-          <button className="text-sm font-medium transition-colors duration-200 text-main-border hover:text-main-border/80">
+          <button onClick={() => navigate("/signin")} className="text-sm font-medium transition-colors duration-200 cursor-pointer text-main-border hover:text-main-border/80">
             View Details
           </button>
-          <button className="px-3 py-1 text-sm font-medium text-white transition-colors duration-200 rounded-full bg-main-border hover:bg-main-border/90">
+          <button onClick={() => navigate("/signin")} className="px-4 py-1 font-medium text-white transition-colors duration-300 cursor-pointer rounded-xl bg-main-border hover:bg-main-border/90">
             Add
           </button>
         </div>
-      </div>
-      {isHovered && (
-        <div className="absolute top-3 right-3 bg-white/90 rounded-full p-1.5 shadow-md cursor-pointer">
-          <i className="w-4 h-4 ri-heart-3-line text-ternary-pink"></i>
-        </div>
-      )}
+      </div>  
     </div>
   );
 };
@@ -196,16 +179,16 @@ const Carousel = ({ items, renderItem, title = null, itemsToShow = 1 }) => {
 
       <button
         onClick={prevSlide}
-        className="absolute z-10 p-2 -translate-y-1/2 rounded-full shadow-md top-1/2 left-4 bg-white/80 hover:bg-white"
+        className="absolute z-10 px-2 py-1 -translate-y-1/2 rounded-[50%] shadow-md cursor-pointer top-1/2 left-4 bg-white/80 hover:bg-white"
       >
-        <i className="w-6 h-6 ri-arrow-left-s-line text-primary"></i>
+        <i className="text-lg ri-arrow-left-s-line text-primary"></i>
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute z-10 p-2 -translate-y-1/2 rounded-full shadow-md top-1/2 right-4 bg-white/80 hover:bg-white"
+        className="absolute z-10 px-2 py-1 -translate-y-1/2 rounded-[50%] shadow-md cursor-pointer top-1/2 right-4 bg-white/80 hover:bg-white"
       >
-        <i className="w-6 h-6 ri-arrow-right-s-line text-primary"></i>
+        <i className="text-lg ri-arrow-right-s-line text-primary"></i>
       </button>
     </div>
   );
