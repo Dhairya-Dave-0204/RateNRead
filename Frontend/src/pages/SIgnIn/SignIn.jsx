@@ -23,7 +23,10 @@ function SignIn() {
         { email, password },
         { withCredentials: true }
       );
-
+      if (response.data.success === false) {
+        toast.error("Account not found. Please sign up first.");
+        return;
+      }
       setUser(true);
       toast.success("Sigin in successfully!");
       navigate("/profile");
