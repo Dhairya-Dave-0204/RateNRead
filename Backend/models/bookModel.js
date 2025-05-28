@@ -5,7 +5,7 @@
     a bit static book data
 */
 
-import dbPool from "../config/db";
+import dbPool from "../config/db.js";
 
 export const insertBooks = async (books) => {
   const values = books

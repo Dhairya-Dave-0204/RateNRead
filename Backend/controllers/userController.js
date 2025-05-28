@@ -45,7 +45,7 @@ export async function handleRegister(req, res) {
     console.error("Registration error:", error);
     res.send({
       success: false,
-      message: "Server error during registration via userController",
+      message: "Server error during registration via userController" + error.message,
     });
   }
 }
