@@ -24,7 +24,7 @@ export const fetchBooksData = async (query, startIndex = 0) => {
 
     // Extract the relevant book data
     const books = response.data.items.map((item) => ({
-      id: item.id,
+      google_id: item.id,
       title: item.volumeInfo.title || "No Title",
       authors: item.volumeInfo.authors || [],
       description: item.volumeInfo.description || "No Description",

@@ -2,8 +2,9 @@
     This file contains a function that takes the fetched books from the api and inserts it into the database
 */
 
-import { fetchBooksData } from "../utils/fetchBooksApi";
-import { insertBooks } from "../models/bookModel";
+import "dotenv/config";
+import { insertBooks } from "../models/bookModel.js";
+import { fetchBooksData } from "../utils/fetchBooksApi.js"
 
 const fetchAndInserBooks = async () => {
   const queries = [
@@ -56,7 +57,7 @@ const fetchAndInserBooks = async () => {
   }
 };
 
-fetchAndInsertBooks()
+fetchAndInserBooks()
   .then(() => {
     console.log("Finished inserting books via fetchBook");
   })
