@@ -64,6 +64,26 @@ function Sidebar() {
           />
         </svg>
       ),
+      action: () => navigate("/profile"),
+    },
+    {
+      name: "Books",
+      to: "/browsebooks",
+      icon: (
+        <svg
+          className="w-6 h-6 mr-4"
+          fill="none"
+          stroke="#5c5c7b"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 19.5V4.5a1 1 0 011-1h13a1 1 0 011 1v15a1 1 0 01-1 1H5a1 1 0 01-1-1zM4 4.5l7 7 7-7"
+          />
+        </svg>
+      ),
       action: () => navigate("/library"),
     },
     {
@@ -93,7 +113,7 @@ function Sidebar() {
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute z-50 block p-2 rounded-lg md:hidden top-5 left-4"
+        className="absolute z-50 block p-2 rounded-lg cursor-pointer md:hidden top-5 left-4"
       >
         <svg
           className="w-6 h-6 text-primary"
@@ -149,7 +169,7 @@ function Sidebar() {
                   action();
                   setIsOpen(false);
                 }}
-                className={`flex items-center w-full text-left text-lg font-medium transition-all duration-300 rounded-md px-2 py-2 ${
+                className={`flex items-center w-full text-left cursor-pointer text-lg font-medium transition-all duration-300 rounded-md px-2 py-2 ${
                   isActive
                     ? "text-[#4a6cf7] bg-[#e1e9ff]"
                     : "text-gray-800 hover:text-[#4a6cf7] hover:bg-[#f0f4ff]"
