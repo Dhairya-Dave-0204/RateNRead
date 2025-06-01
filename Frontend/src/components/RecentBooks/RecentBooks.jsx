@@ -17,17 +17,13 @@ function RecentBooks() {
 
   return (
     <div
-      className="rounded-2xl p-6 shadow-sm border"
-      style={{
-        backgroundColor: "white",
-        borderColor: "#e5e5e7",
-      }}
+      className="rounded-2xl p-6 shadow-sm border bg-white border-text-pri"
     >
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-semibold" style={{ color: "#1c1c1e" }}>
+        <h3 className="text-xl font-semibold">
           Recent Library Activity
         </h3>
-        <button className="text-sm font-medium" style={{ color: "#4a6cf7" }}>
+        <button className="text-sm font-medium text-main-border cursor-pointer">
           View All Books
         </button>
       </div>
@@ -36,8 +32,7 @@ function RecentBooks() {
         {recentBooks.map((book) => (
           <div
             key={book.id}
-            className="flex items-start gap-4 p-4 rounded-xl border transition-colors hover:shadow-sm"
-            style={{ borderColor: "#f2f2f7" }}
+            className="flex items-start gap-4 p-4 rounded-xl border transition-colors hover:shadow-sm border-accent-blue"
           >
             <div
               className={`w-12 h-16 ${book.color} rounded-lg flex-shrink-0`}
@@ -45,21 +40,20 @@ function RecentBooks() {
             <div className="flex-1 min-w-0">
               <h4
                 className="font-semibold truncate"
-                style={{ color: "#1c1c1e" }}
               >
                 {book.title}
               </h4>
-              <p className="text-sm mb-2" style={{ color: "#a1a1a3" }}>
+              <p className="text-sm mb-2 text-text-mute">
                 by {book.author}
               </p>
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex">{renderStars(book.rating)}</div>
-                <span className="text-sm" style={{ color: "#a1a1a3" }}>
+                <span className="text-sm text-text-mute">
                   {book.rating}/5
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs" style={{ color: "#a1a1a3" }}>
+                <span className="text-xs text-text-mute">
                   Added {book.dateAdded}
                 </span>
                 <span

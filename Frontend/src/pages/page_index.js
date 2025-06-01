@@ -6,6 +6,8 @@ import Books from "./Books/Books";
 import SignIn from "./SIgnIn/SignIn";
 import SignUp from "./SignUp/SignUp";
 import Profile from "./Profile/Profile";
+import Browse from "./Browse/Browse";
+import Library from "./Library/Library";
 
 export {
     Home,
@@ -16,4 +18,6 @@ export {
     SignIn,
     SignUp,
     Profile,
+    Browse,
+    Library,
 }

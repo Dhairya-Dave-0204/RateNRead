@@ -13,6 +13,8 @@ import {
   SignIn,
   SignUp,
   Profile,
+  Browse,
+  Library,
 } from "./pages/page_index";
 import { Footer, Navbar, Sidebar } from "./components/component_index";
 
@@ -43,6 +45,8 @@ function App() {
             <div className="flex-1 p-5">
               <Routes>
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/browsebooks" element={<Browse />} />
+                <Route path="/library" element={<Library />} />
               </Routes>
             </div>
           </div>

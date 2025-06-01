@@ -64,7 +64,7 @@ function Sidebar() {
           />
         </svg>
       ),
-      action: () => navigate("/profile"),
+      action: () => navigate("/library"),
     },
     {
       name: "Books",
@@ -84,7 +84,7 @@ function Sidebar() {
           />
         </svg>
       ),
-      action: () => navigate("/library"),
+      action: () => navigate("/browsebooks"),
     },
     {
       name: "Logout",
