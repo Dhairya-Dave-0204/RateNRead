@@ -1,17 +1,46 @@
-import { useState } from "react";
-import { userData } from "../ProfileCard/data";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { AppContext } from "../../context/AppContext";
 
 function AccountSettings() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: userData.name,
-    email: userData.email
+    name: "Guest User",
+    email: "No Email",
   });
+  const { backendUrl } = useContext(AppContext);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}/api/user/profile`, {
+          withCredentials: true,
+        });
+        if (response.data.success === false) {
+          toast.error(
+            "Failed to fetch user data. Please try again later. AccountSettings.jsx"
+          );
+        }
+        const data = response.data.user;
+        setFormData({
+          name: data.username || "Guest User",
+          email: data.email || "No Email",
+        });
+      } catch (error) {
+        console.error("Error fetching user data AccountSettings.jsx : ", error);
+        toast.error(
+          "Failed to fetch user data. Please try again later. AccountSettings.jsx"
+        );
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -26,43 +55,43 @@ function AccountSettings() {
   };
 
   return (
-    <div className="rounded-2xl p-6 shadow-sm border bg-white border-text-pri">
-      <h3 className="text-xl font-semibold mb-6">Account Settings</h3>
+    <div className="p-6 bg-white border shadow-sm rounded-2xl border-text-pri">
+      <h3 className="mb-6 text-xl font-semibold">Account Settings</h3>
 
       <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium mb-2">Full Name</label>
+            <label className="block mb-2 text-sm font-medium">Full Name</label>
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 border-text-pri focus:ring-main-border"
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 border-text-pri focus:ring-main-border"
               readOnly={!isEditing}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block mb-2 text-sm font-medium">
               Email Address
             </label>
             <input
               type="email"
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 border-text-pri focus:ring-main-border"
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 border-text-pri focus:ring-main-border"
               readOnly={!isEditing}
             />
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button 
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <button
             onClick={handleUpdateClick}
-            className="px-6 py-3 rounded-lg font-medium cursor-pointer text-white transition-colors bg-main-border hover:bg-main-border/85 duration-300"
+            className="px-6 py-3 font-medium text-white transition-colors duration-300 rounded-lg cursor-pointer bg-main-border hover:bg-main-border/85"
           >
-            {isEditing ? 'Save Changes' : 'Update Profile'}
+            {isEditing ? "Save Changes" : "Update Profile"}
           </button>
-          <button className="px-6 py-3 rounded-lg font-medium border cursor-pointer transition-colors border-text-pri hover:bg-gray-200 duration-300">
+          <button className="px-6 py-3 font-medium transition-colors duration-300 border rounded-lg cursor-pointer border-text-pri hover:bg-gray-200">
             Reset Password
           </button>
         </div>

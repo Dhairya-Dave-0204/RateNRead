@@ -30,7 +30,6 @@ function ProfileCard() {
           return;
         }
         const data = resonse.data.user;
-        console.log("User Data:", data);
         setUserData({
           name: data.username || "Guest",
           email: data.email || "No defined email",
