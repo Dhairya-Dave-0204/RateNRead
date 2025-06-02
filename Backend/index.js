@@ -11,8 +11,9 @@ import connectPgSimple from "connect-pg-simple"; // used to manage sessions in p
 import dbPool from "./config/db.js";  
 import passport from "passport";
 import { authRouter } from "./routes/authRoutes.js";
+import { userRouter } from "./routes/userRoutes.js"
 import "./config/passport.js";
-import { insertBooks } from "./models/bookModel.js";
+//import { insertBooks } from "./models/bookModel.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,7 +33,7 @@ app.use(
     }),
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SESSION_SSECRET,
+    secret: process.env.SESSION_SECRET,
     cookie: {
       httpOnly: true,
       sameSite: "lax",
@@ -48,6 +49,8 @@ app.use(passport.session());
 
 // setup for the usage of ROUTES
 app.use("/api", authRouter);
+app.use("/api/user", userRouter);
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
