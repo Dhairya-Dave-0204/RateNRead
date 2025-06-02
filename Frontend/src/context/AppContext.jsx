@@ -4,7 +4,7 @@ export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
   // State that checks users presence
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(true);
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   // Function to fetch Logged-In User on App Load
