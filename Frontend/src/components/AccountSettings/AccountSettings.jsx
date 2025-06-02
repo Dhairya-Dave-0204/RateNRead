@@ -44,12 +44,35 @@ function AccountSettings() {
     }));
   };
 
-  const handleUpdateClick = () => {
+  const handleUpdateClick = async () => {
     if (isEditing) {
-      // Save changes logic here
-      setIsEditing(false);
+      try {
+        const response = await axios.put(
+          `${backendUrl}/api/user/profile`,
+          {
+            username: formData.name,
+            email: formData.email,
+          },
+          { withCredentials: true }
+        );
+
+        if (response.data.success === false) {
+          toast.error(
+            "Failed to update user data. Please try again later. AccountSettings.jsx"
+          );
+          console.log(response.data.message);
+          return;
+        }
+
+        toast.success("User data updated successfully.");
+        setIsEditing(false);
+      } catch (error) {
+        console.error("Error updating user data AccountSettings.jsx: ", error);
+        toast.error(
+          "Failed to update user data. Please try again later. AccountSettings.jsx"
+        );
+      }
     } else {
-      // Enable editing mode
       setIsEditing(true);
     }
   };

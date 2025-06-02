@@ -15,6 +15,7 @@ function ProfileHeader() {
 
         if (response.data.success === false) {
           toast.error("Failed to fetch user profile. Please try again later.");
+          return;
         }
         const data = await response.data;
         setUsername(data.user.username);
