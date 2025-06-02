@@ -1,6 +1,8 @@
 import { recentBooks } from "./data"
+import { useNavigate } from "react-router-dom";
 
 function RecentBooks() {
+  const navigate = useNavigate();
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
@@ -23,7 +25,7 @@ function RecentBooks() {
         <h3 className="text-xl font-semibold">
           Recent Library Activity
         </h3>
-        <button className="text-sm font-medium text-main-border cursor-pointer">
+        <button onClick={() => navigate("/library")} className="text-sm font-medium text-main-border cursor-pointer">
           View All Books
         </button>
       </div>
