@@ -109,10 +109,13 @@ function Browse() {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const searchTimeoutRef = useRef(null);
   const observerRef = useRef(null);
   const loadMoreRef = useRef(null);
+  const modalRef = useRef(null);
 
   const BOOKS_PER_PAGE = 12;
 
@@ -123,6 +126,39 @@ function Browse() {
     setFilteredBooks(mockBooks);
     setDisplayedBooks(mockBooks.slice(0, BOOKS_PER_PAGE));
   }, []);
+
+  // Handle click outside modal to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'unset';
+    };
+  }, [showModal]);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && showModal) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [showModal]);
 
   // Search debouncing
   const debouncedSearch = useCallback(
@@ -253,6 +289,22 @@ function Browse() {
     setShowSuggestions(false);
   };
 
+  const openModal = (book) => {
+    setSelectedBook(book);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedBook(null);
+  };
+
+  const handleAddToLibrary = (book) => {
+    // Add your library logic here
+    alert(`"${book.title}" has been added to your library!`);
+    closeModal();
+  };
+
   const languages = [...new Set(books.map((book) => book.language))].sort();
 
   const StatCard = ({ icon, label, value, color }) => (
@@ -275,7 +327,10 @@ function Browse() {
   );
 
   const BookCard = ({ book }) => (
-    <div className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
+    <div 
+      className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer rounded-xl hover:shadow-md group"
+      onClick={() => openModal(book)}
+    >
       <div className="relative">
         <img
           src={book.image}
@@ -309,11 +364,123 @@ function Browse() {
     </div>
   );
 
+  const BookModal = ({ book, isOpen, onClose, onAddToLibrary }) => {
+    if (!isOpen || !book) return null;
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div 
+          ref={modalRef}
+          className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
+        >
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute z-10 p-2 transition-colors rounded-full shadow-md cursor-pointer top-4 right-4 bg-white/90 hover:bg-white"
+          >
+            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div className="flex flex-col md:flex-row max-h-[90vh] overflow-y-auto">
+            {/* Book Image */}
+            <div className="flex-shrink-0 p-6 md:w-1/3">
+              <img
+                src={book.image}
+                alt={book.title}
+                className="w-full h-auto max-w-sm mx-auto rounded-lg shadow-lg"
+              />
+            </div>
+
+            {/* Book Details */}
+            <div className="flex-1 p-6 md:p-8">
+              <div className="mb-4">
+                <h1 className="mb-2 text-3xl font-bold text-gray-900">
+                  {book.title}
+                </h1>
+                <p className="mb-4 text-lg text-gray-600">
+                  by {book.authors.join(", ")}
+                </p>
+                
+                {/* Rating */}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className={`w-5 h-5 ${
+                          i < book.rating ? 'fill-yellow-400' : 'fill-gray-200'
+                        }`}
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-sm text-gray-600">
+                    {book.rating}/5 stars
+                  </span>
+                </div>
+              </div>
+
+              {/* Book Info Grid */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="p-4 rounded-lg bg-gray-50">
+                  <h3 className="mb-1 text-sm font-medium text-gray-500">Language</h3>
+                  <p className="text-gray-900">{book.language}</p>
+                </div>
+                <div className="p-4 rounded-lg bg-gray-50">
+                  <h3 className="mb-1 text-sm font-medium text-gray-500">Genre</h3>
+                  <p className="text-gray-900">{book.genre}</p>
+                </div>
+                <div className="p-4 rounded-lg bg-gray-50">
+                  <h3 className="mb-1 text-sm font-medium text-gray-500">Pages</h3>
+                  <p className="text-gray-900">{book.pages}</p>
+                </div>
+                <div className="p-4 rounded-lg bg-gray-50">
+                  <h3 className="mb-1 text-sm font-medium text-gray-500">Published</h3>
+                  <p className="text-gray-900">{book.publishYear}</p>
+                </div>
+              </div>
+
+              {/* ISBN */}
+              <div className="mb-6">
+                <h3 className="mb-2 text-sm font-medium text-gray-500">ISBN</h3>
+                <p className="p-2 font-mono text-sm text-gray-900 rounded bg-gray-50">
+                  {book.ISBN}
+                </p>
+              </div>
+
+              {/* Description */}
+              <div className="mb-8">
+                <h3 className="mb-3 text-lg font-semibold text-gray-900">Description</h3>
+                <p className="leading-relaxed text-gray-700">
+                  {book.description}
+                </p>
+              </div>
+
+              {/* Add to Library Button */}
+              <button
+                onClick={() => onAddToLibrary(book)}
+                className="flex items-center justify-center w-full gap-2 px-6 py-3 font-semibold text-white transition-colors duration-300 bg-blue-600 rounded-lg cursor-pointer hover:bg-blue-700"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add to Library
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#f8f8ff" }}>
+    <div className="min-h-screen">
       {/* Header Stats */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 py-8 mx-auto max-md:mt-8 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
               Book Library
@@ -323,7 +490,7 @@ function Browse() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <StatCard
               icon={
                 <svg
@@ -390,11 +557,10 @@ function Browse() {
             />
           </div>
         </div>
-      </div>
 
       {/* Search and Filters */}
-      <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="p-6 mb-6 bg-white border border-gray-100 shadow-sm rounded-xl">
+      <div className="px-4 py-6 mx-auto sm:px-6 lg:px-8">
+        <div className="p-6 mb-6 border border-gray-100 shadow-sm bg-white/50 rounded-xl">
           <div className="flex flex-col gap-4 lg:flex-row">
             {/* Search Bar */}
             <div className="relative flex-1">
@@ -529,6 +695,14 @@ function Browse() {
           </div>
         )}
       </div>
+
+      {/* Book Details Modal */}
+      <BookModal
+        book={selectedBook}
+        isOpen={showModal}
+        onClose={closeModal}
+        onAddToLibrary={handleAddToLibrary}
+      />
     </div>
   );
 }
