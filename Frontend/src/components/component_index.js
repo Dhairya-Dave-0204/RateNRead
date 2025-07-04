@@ -10,7 +10,12 @@ import ProfileCard from "./ProfileCard/ProfileCard";
 import ProfileStatCard from "./ProfileStatCard/ProfileStatCard";
 import AccountSettings from "./AccountSettings/AccountSettings";
 import RecentBooks from "./RecentBooks/RecentBooks";
-
+import BookCard from "./BookCard/BookCard";
+import Pagination from "./Paginiation/Pagination";
+import SearchBar from "./SearchBar/SearchBar";
+import FilterPanel from "./FilterPanel/FilterPanel";
+import StatCard from "./StatCard/StatCard";
+import BookDetail from "./BookDetail/BookDetail";
 
 
 export {
@@ -26,4 +31,10 @@ export {
     ProfileStatCard,
     AccountSettings,
     RecentBooks,
+    BookCard,
+    Pagination,
+    SearchBar,
+    FilterPanel,
+    StatCard,
+    BookDetail,
 }
