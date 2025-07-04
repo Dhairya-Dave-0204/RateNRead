@@ -26,10 +26,6 @@ const dbPool = new Pool({
     database: process.env.POSTGRE_DB,
     password: process.env.POSTGRE_PASSWORD,
     port: process.env.POSTGRE_PORT,
-})
-console.log({
-  pass: process.env.POSTGRE_PASSWORD,
-  type: typeof process.env.POSTGRE_PASSWORD,
-});
+})  
 
 export default dbPool
