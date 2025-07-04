@@ -1,66 +1,53 @@
 /*
-    This file contains a function that takes the fetched books from the api and inserts it into the database
+    This file contains a function that takes the fetched books from the API and inserts them into the database.
 */
 
 import "dotenv/config";
 import { insertBooks } from "../models/bookModel.js";
-import { fetchBooksData } from "../utils/fetchBooksApi.js"
+import { fetchBooksData } from "../utils/fetchBooksApi.js";
 
-const fetchAndInserBooks = async () => {
-  const queries = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
+const fetchAndInsertBooks = async () => {
+  const queries = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  for (let query of queries) {
+  for (const query of queries) {
     let startIndex = 0;
     let fetchedBooks = [];
 
-    while (fetchedBooks.length < 40) {
-      const books = await fetchBooksData(query, startIndex);
-      if (!books || books.length === 0) break;
+    console.log(`📘 Fetching books for query: "${query}"`);
 
-      fetchedBooks = [...fetchedBooks, ...books];
-      startIndex += 40;
+    while (fetchedBooks.length < 40) {
+      try {
+        const books = await fetchBooksData(query, startIndex);
+        if (!books || books.length === 0) {
+          console.log(`🔚 No more books for "${query}" at startIndex ${startIndex}`);
+          break;
+        }
+
+        fetchedBooks = [...fetchedBooks, ...books];
+        startIndex += 40;
+      } catch (error) {
+        console.error(`❌ Error fetching books for query "${query}" at index ${startIndex}:`, error);
+        break;
+      }
     }
 
     if (fetchedBooks.length > 0) {
-      await insertBooks(fetchedBooks);
-      console.log(
-        `Enterd 40 books till ${startIndex} via fetchBook for ${query}`
-      );
+      try {
+        await insertBooks(fetchedBooks);
+        console.log(`✅ Inserted ${fetchedBooks.length} books for query "${query}"`);
+      } catch (error) {
+        console.error(`❌ Error inserting books for "${query}":`, error);
+      }
+    } else {
+      console.log(`⚠️ No books fetched for "${query}"`);
     }
   }
 };
 
-fetchAndInserBooks()
+fetchAndInsertBooks()
   .then(() => {
-    console.log("Finished inserting books via fetchBook");
+    console.log("🎉 Finished inserting books via fetchAndInsertBooks.js");
   })
   .catch((error) => {
-    console.error("Error during fetching and inserting books via fetchBook:", error);
+    console.error("❌ Fatal error in fetchAndInsertBooks:", error);
   });
