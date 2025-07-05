@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { AppContext } from "../../context/AppContext";
 import {
   BookCard,
   Pagination,
@@ -10,91 +12,70 @@ import {
 
 const BOOKS_PER_PAGE = 12;
 
-const generateMockBooks = () => {
-  const books = [];
-  const languages = ["English", "Spanish", "French", "German"];
-  const genres = ["Fiction", "Romance", "Mystery", "Fantasy"];
-  const titles = ["Whispers of Time", "Digital Shadows", "City Echoes"];
-  const authors = ["John Smith", "Emily Rose", "Liam Chen"];
-
-  for (let i = 1; i <= 255; i++) {
-    books.push({
-      book_id: i,
-      title: titles[Math.floor(Math.random() * titles.length)] + ` ${i}`,
-      authors: [authors[Math.floor(Math.random() * authors.length)]],
-      description: `A wonderful story that blends ${
-        genres[Math.floor(Math.random() * genres.length)]
-      }.`,
-      image: `https://picsum.photos/300/400?random=${i}`,
-      language: languages[Math.floor(Math.random() * languages.length)],
-      rating: Math.floor(Math.random() * 5) + 1,
-      publishYear: 2000 + (i % 24),
-    });
-  }
-  return books;
-};
-
 const Browse = () => {
   const [books, setBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
-  const [displayedBooks, setDisplayedBooks] = useState([]);
+  const [totalBooks, setTotalBooks] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("all");
   const [sortBy, setSortBy] = useState("recent");
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedBook, setSelectedBook] = useState(null);
 
-  const [selectedBook, setSelectedBook] = useState(null); // for modal
   const handleBookClick = (book) => setSelectedBook(book);
   const handleCloseModal = () => setSelectedBook(null);
   const handleAddToLibrary = (book) => {
-    console.log("Book added:", book); // Hook this later to backend
+    console.log("Book added:", book);
     alert(`${book.title} added to your library!`);
   };
 
-  useEffect(() => {
-    setBooks(generateMockBooks());
-  }, []);
+  const { backendUrl } = useContext(AppContext)
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/books`, {
+        params: {
+          page: currentPage,
+          limit: BOOKS_PER_PAGE,
+          query: searchQuery,
+          language: selectedLanguage,
+          sortBy,
+        },
+      });
+
+      if (response.data.success) {
+        setBooks(response.data.data);
+        setTotalBooks(response.data.pagination.total);
+        setTotalPages(response.data.pagination.totalPages);
+      }
+    } catch (error) {
+      console.error("❌ Failed to fetch books:", error);
+    }
+  };
 
   useEffect(() => {
-    let temp = [...books];
-    if (searchQuery) {
-      temp = temp.filter(
-        (book) =>
-          book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          book.authors.some((author) =>
-            author.toLowerCase().includes(searchQuery.toLowerCase())
-          ) ||
-          book.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    if (selectedLanguage !== "all") {
-      temp = temp.filter((book) => book.language === selectedLanguage);
-    }
-    switch (sortBy) {
-      case "title":
-        temp.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "rating":
-        temp.sort((a, b) => b.rating - a.rating);
-        break;
-      case "recent":
-        temp.sort((a, b) => b.publishYear - a.publishYear);
-        break;
-      default:
-        break;
-    }
-    setFilteredBooks(temp);
-    setCurrentPage(1);
-  }, [books, searchQuery, selectedLanguage, sortBy]);
+    fetchBooks();
+  }, [searchQuery, selectedLanguage, sortBy, currentPage]);
 
+  // Optional search suggestions from currently displayed books
   useEffect(() => {
-    const start = (currentPage - 1) * BOOKS_PER_PAGE;
-    setDisplayedBooks(filteredBooks.slice(start, start + BOOKS_PER_PAGE));
-  }, [currentPage, filteredBooks]);
+    if (!searchQuery.trim()) return setSearchSuggestions([]);
+    const suggestions = books
+      .filter((book) =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .slice(0, 5)
+      .map((b) => ({
+        id: b.book_id,
+        title: b.title,
+        author: b.authors?.[0] || "Unknown",
+      }));
+    setSearchSuggestions(suggestions);
+  }, [searchQuery, books]);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= Math.ceil(filteredBooks.length / BOOKS_PER_PAGE)) {
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -105,31 +86,19 @@ const Browse = () => {
     setSearchSuggestions([]);
   };
 
-  const allLanguages = [...new Set(books.map((b) => b.language))];
-
-  useEffect(() => {
-    if (!searchQuery.trim()) return setSearchSuggestions([]);
-    const suggestions = books
-      .filter((book) =>
-        book.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-      .slice(0, 5)
-      .map((b) => ({ id: b.book_id, title: b.title, author: b.authors[0] }));
-    setSearchSuggestions(suggestions);
-  }, [searchQuery, books]);
+  const allLanguages = ["all", "en"]; // only English books in DB
 
   return (
     <main className="min-h-screen p-6 bg-gray-50">
       <div className="px-4 py-8 mx-auto max-md:mt-8 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Book Library
-          </h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Book Library</h1>
           <p className="text-gray-600">
-            Discover and explore our collection of {books.length} books
+            Discover and explore our collection of {totalBooks} books
           </p>
         </div>
 
+        {/* Stats */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
             icon={
@@ -182,6 +151,7 @@ const Browse = () => {
         </div>
       </div>
 
+      {/* Filters */}
       <div className="flex flex-col gap-4 mt-8 lg:flex-row lg:items-center lg:justify-between">
         <SearchBar
           searchQuery={searchQuery}
@@ -199,19 +169,23 @@ const Browse = () => {
         />
       </div>
 
+      {/* Book Grid */}
       <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {displayedBooks.map((book) => (
-          <BookCard key={book.book_id} book={book} onClick={() => handleBookClick(book)}/>
+        {books.map((book) => (
+          <BookCard key={book.book_id} book={book} onClick={() => handleBookClick(book)} />
         ))}
       </div>
-      {filteredBooks.length > BOOKS_PER_PAGE && (
+
+      {/* Pagination */}
+      {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(filteredBooks.length / BOOKS_PER_PAGE)}
+          totalPages={totalPages}
           onPageChange={handlePageChange}
         />
       )}
 
+      {/* Modal */}
       <BookDetail
         book={selectedBook}
         onClose={handleCloseModal}
@@ -222,3 +196,6 @@ const Browse = () => {
 };
 
 export default Browse;
+
+
+
