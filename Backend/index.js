@@ -11,7 +11,8 @@ import connectPgSimple from "connect-pg-simple"; // used to manage sessions in p
 import dbPool from "./config/db.js";  
 import passport from "passport";
 import { authRouter } from "./routes/authRoutes.js";
-import { userRouter } from "./routes/userRoutes.js"
+import { userRouter } from "./routes/userRoutes.js";
+import { bookRouter } from "./routes/booksRoutes.js";
 import "./config/passport.js";
 //import { insertBooks } from "./models/bookModel.js";
 
@@ -50,6 +51,7 @@ app.use(passport.session());
 // setup for the usage of ROUTES
 app.use("/api", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/books", bookRouter);
 
 
 app.get("/", (req, res) => {

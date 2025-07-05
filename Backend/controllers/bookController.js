@@ -29,7 +29,7 @@ export const getBooks = async (req, res) => {
       whereClauses.push(
         `(LOWER(title) LIKE $${values.length} OR
                 EXISTS (
-                    SELECT 1 FROM unset(authors) a WHERE LOWER(a) LIKE $${values.length}
+                    SELECT 1 FROM unnest(authors) a WHERE LOWER(a) LIKE $${values.length}
                 )
                 )`
       );
@@ -37,8 +37,8 @@ export const getBooks = async (req, res) => {
 
     // Language filter
     if (language != "all") {
-      values.push(language);
-      whereClauses.push(`language = $${values.length}`);
+      values.push(language.toLowerCase());
+      whereClauses.push(`LOWER(language) = $${values.length}`);
     }
 
     // Combining and making the where clauses
@@ -52,7 +52,7 @@ export const getBooks = async (req, res) => {
         baseQuery += " ORDER BY title ASC";
         break;
       case "recent":
-        baseQuery += "ORDER BY book_id DESC";
+        baseQuery += " ORDER BY book_id DESC";
         break;
       default:
         baseQuery += " ORDER BY book_id ASC";
@@ -106,7 +106,7 @@ export const getBookById = async (req, res) => {
                 message: "Book not found via bookController"
             });
         }
-
+ 
         res.send({
             success: true,
             data: result.rows[0],
