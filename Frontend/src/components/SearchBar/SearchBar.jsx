@@ -1,4 +1,6 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useContext } from "react";
+import axios from "axios";
+import { AppContext } from "../../context/AppContext";
 
 const useDebouncedSearch = (callback, delay = 200) => {
   const timeoutRef = useRef(null);
@@ -15,13 +17,45 @@ const SearchBar = ({
   onSuggestionClick,
   setSuggestions,
 }) => {
+  const { backendUrl } = useContext(AppContext)
+
+  const fetchSuggestions = async (query) => {
+    try {
+      const res = await axios.get(`${backendUrl}/api/books`, {
+        params: {
+          query,
+          limit: 5,
+        },
+      });
+
+      if (res.data.success) {
+        const suggestionList = res.data.data.map((b) => ({
+          id: b.book_id,
+          title: b.title,
+          author: b.authors[0],
+        }));
+        setSuggestions(suggestionList);
+      } else {
+        setSuggestions([]);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+    }
+  };
+
   const debouncedSearch = useDebouncedSearch((query) => {
-    setSuggestions(query);
+    if (query.trim().length > 0) {
+      fetchSuggestions(query);
+    } else {
+      setSuggestions([]);
+    }
   });
 
   const handleChange = (e) => {
-    setSearchQuery(e.target.value);
-    debouncedSearch(e.target.value);
+    const value = e.target.value;
+    setSearchQuery(value);
+    debouncedSearch(value);
   };
 
   return (

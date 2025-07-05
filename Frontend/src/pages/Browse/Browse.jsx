@@ -107,7 +107,7 @@ const Browse = () => {
               </svg>
             }
             label="Total Books"
-            value={books.length}
+            value={"900+"}
             color="#4a6cf7"
           />
           <StatCard
@@ -131,7 +131,7 @@ const Browse = () => {
               </svg>
             }
             label="Showing"
-            value={displayedBooks.length}
+            value={books.length}
             color="#f29ca3"
           />
           <StatCard
@@ -145,7 +145,7 @@ const Browse = () => {
               </svg>
             }
             label="Filtered"
-            value={filteredBooks.length}
+            value={books.length}
             color="#a9e5bb"
           />
         </div>
@@ -196,6 +196,3 @@ const Browse = () => {
 };
 
 export default Browse;
-
-
-
