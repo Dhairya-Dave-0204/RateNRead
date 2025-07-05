@@ -12,11 +12,7 @@ const FilterPanel = ({
       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg sm:w-auto"
     >
       <option value="all">All Languages</option>
-      {languages.map((lang) => (
-        <option key={lang} value={lang}>
-          {lang}
-        </option>
-      ))}
+      <option value="en">English</option>
     </select>
 
     <select
