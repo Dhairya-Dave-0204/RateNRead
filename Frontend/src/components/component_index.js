@@ -16,6 +16,12 @@ import SearchBar from "./SearchBar/SearchBar";
 import FilterPanel from "./FilterPanel/FilterPanel";
 import StatCard from "./StatCard/StatCard";
 import BookDetail from "./BookDetail/BookDetail";
+import BookModal from "./BookModal/BookModal";
+import FilterSortBar from "./FilterSortBar/FilterSortBar";
+import LibraryBookCard from "./LibraryBookCard/LibraryBookCard";
+import LibraryHeader from "./LibraryHeader/LibraryHeader";
+import LibraryPagination from "./LibraryPagination/LibraryPagination";
+import StarRating from "./StarRating/StarRating";
 
 
 export {
@@ -37,4 +43,10 @@ export {
     FilterPanel,
     StatCard,
     BookDetail,
+    BookModal,
+    FilterSortBar,
+    LibraryBookCard,
+    LibraryHeader,
+    LibraryPagination,
+    StarRating,
 }

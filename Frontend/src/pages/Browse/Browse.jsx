@@ -89,7 +89,7 @@ const Browse = () => {
   const allLanguages = ["all", "en"]; // only English books in DB
 
   return (
-    <main className="min-h-screen p-6 bg-gray-50">
+    <main className="min-h-screen">
       <div className="px-4 py-8 mx-auto max-md:mt-8 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">Book Library</h1>
