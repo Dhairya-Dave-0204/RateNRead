@@ -10,7 +10,7 @@ import {
   handleUpdateLibraryEntry,
 } from "../controllers/libraryController.js";
 
-export const router = express.Router();
+export const libraryRouter = express.Router();
 
 // GET all books in user's library
 router.get("/", handleGetUserLibrary);

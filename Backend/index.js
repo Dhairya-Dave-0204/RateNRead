@@ -13,6 +13,7 @@ import passport from "passport";
 import { authRouter } from "./routes/authRoutes.js";
 import { userRouter } from "./routes/userRoutes.js";
 import { bookRouter } from "./routes/booksRoutes.js";
+import { libraryRouter } from "./routes/libraryRoutes.js"
 import "./config/passport.js";
 //import { insertBooks } from "./models/bookModel.js";
 
@@ -52,6 +53,7 @@ app.use(passport.session());
 app.use("/api", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/books", bookRouter);
+app.use("/api/library", libraryRouter)
 
 
 app.get("/", (req, res) => {
