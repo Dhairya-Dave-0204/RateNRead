@@ -3,7 +3,7 @@ This file contains the function related to the user library of the project.
 All functionality involving the use libraryr is defined here.
 */
 
-import dbPool from "../config/db";
+import dbPool from "../config/db.js";
 
 // Add a book to the user library
 export const addToLibrary = async (userId, bookId) => {

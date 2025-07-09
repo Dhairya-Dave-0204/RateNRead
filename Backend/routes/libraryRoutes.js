@@ -13,14 +13,14 @@ import {
 export const libraryRouter = express.Router();
 
 // GET all books in user's library
-router.get("/", handleGetUserLibrary);
+libraryRouter.get("/", handleGetUserLibrary);
 
 // POST a book to user's library
-router.post("/", handleAddToLibrary);
+libraryRouter.post("/", handleAddToLibrary);
 
 
 // PUT (update) a library entry's rating/notes
-router.put("/:libraryId", handleUpdateLibraryEntry);
+libraryRouter.put("/:libraryId", handleUpdateLibraryEntry);
 
 // DELETE a book from user's library
-router.delete("/:libraryId", handleRemoveFromLibrary);
+libraryRouter.delete("/:libraryId", handleRemoveFromLibrary);
