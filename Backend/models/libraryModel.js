@@ -30,12 +30,12 @@ export const addToLibrary = async (userId, bookId) => {
 };
 
 // Get all books in the user library (joined with book info)
-export const getUserLibrary = async () => {
+export const getUserLibrary = async (userId) => {
   try {
     const result = await dbPool.query(
-      `SELECT ul.id AS library_id, ul.rating, ul.notes, ul.created_at, b.book_id b.title, b.authors, b.title, b.authors, b.description, b.isbn, b.language, b.image
+      `SELECT ul.id AS library_id, ul.rating, ul.notes, ul.created_at, b.book_id, b.title, b.authors, b.title, b.authors, b.description, b.isbn, b.language, b.image
       FROM user_library ul
-      join books on ul.book_id = b.book_id
+      join books b on ul.book_id = b.book_id
       WHERE ul.user_id = $1
       ORDER BY ul.created_at DESC`,
       [userId]
@@ -43,7 +43,7 @@ export const getUserLibrary = async () => {
 
     return result.rows;
   } catch (error) {
-    console.log("Error getting user library via library model" + error);
+    console.log("Error getting user library via library model " + error);
   }
 };
 
@@ -57,7 +57,7 @@ export const updateLibraryEntry = async (libraryId, rating, notes) => {
       [rating, notes, libraryId]
     );
 
-    return result.rows[0];  
+    return result.rows[0];
   } catch (error) {
     console.log("Error updating library entry via library model" + error);
   }

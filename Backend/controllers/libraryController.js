@@ -13,9 +13,10 @@ import {
 // Add a book to user library
 export const handleAddToLibrary = async (req, res) => {
   const userId = req.user?.id;
+  
   const { bookId } = req.body;
 
-  if (!userId || bookId) {
+  if (!userId || !bookId) {
     return res.send({
       success: false,
       message: `Error via libController. Not found ${userId} or ${bookId}`,
@@ -50,8 +51,8 @@ export const handleGetUserLibrary = async (req, res) => {
   }
 
   try {
-    const books = await getUserLibrary(userId);
-    res.send({ success: true, meesage: "All books fetched", books });
+    const books = await getUserLibrary(userId); 
+    res.send({ success: true, message: "All books fetched", books });
   } catch (error) {
     console.log("Error fetching the user library via libController" + error);
     res.send({
@@ -63,7 +64,7 @@ export const handleGetUserLibrary = async (req, res) => {
 
 // update notes and rating of a book in library
 export const handleUpdateLibraryEntry = async (req, res) => {
-  const libraryId = req.params;
+  const { libraryId } = req.params;
   const { rating, notes } = req.body;
 
   if (!libraryId) {

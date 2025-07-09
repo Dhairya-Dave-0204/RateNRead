@@ -16,7 +16,7 @@ export const libraryRouter = express.Router();
 libraryRouter.get("/", handleGetUserLibrary);
 
 // POST a book to user's library
-libraryRouter.post("/", handleAddToLibrary);
+libraryRouter.post("/add", handleAddToLibrary);
 
 
 // PUT (update) a library entry's rating/notes
