@@ -57,7 +57,7 @@ export const updateLibraryEntry = async (libraryId, rating, notes) => {
       [rating, notes, libraryId]
     );
 
-    return result.rows[0];
+    return result.rows[0];  
   } catch (error) {
     console.log("Error updating library entry via library model" + error);
   }
