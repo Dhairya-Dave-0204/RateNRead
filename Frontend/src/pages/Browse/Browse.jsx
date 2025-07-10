@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { AppContext } from "../../context/AppContext";
 import {
   BookCard,
@@ -22,15 +23,9 @@ const Browse = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [userLibrary, setUserLibrary] = useState([]);
 
-  const handleBookClick = (book) => setSelectedBook(book);
-  const handleCloseModal = () => setSelectedBook(null);
-  const handleAddToLibrary = (book) => {
-    console.log("Book added:", book);
-    alert(`${book.title} added to your library!`);
-  };
-
-  const { backendUrl } = useContext(AppContext)
+  const { backendUrl } = useContext(AppContext);
 
   const fetchBooks = async () => {
     try {
@@ -54,11 +49,26 @@ const Browse = () => {
     }
   };
 
+  const fetchUserLibrary = async () => {
+    try {
+      const res = await axios.get(`${backendUrl}/api/library`, {
+        withCredentials: true,
+      });
+      const userBookIds = res.data.books.map((b) => b.book_id);
+      setUserLibrary(userBookIds);
+    } catch (error) {
+      console.error("Failed to fetch user library:", error);
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
   }, [searchQuery, selectedLanguage, sortBy, currentPage]);
 
-  // Optional search suggestions from currently displayed books
+  useEffect(() => {
+    fetchUserLibrary();
+  }, [backendUrl]);
+
   useEffect(() => {
     if (!searchQuery.trim()) return setSearchSuggestions([]);
     const suggestions = books
@@ -86,7 +96,32 @@ const Browse = () => {
     setSearchSuggestions([]);
   };
 
-  const allLanguages = ["all", "en"]; // only English books in DB
+  const handleBookClick = (book) => setSelectedBook(book);
+  const handleCloseModal = () => setSelectedBook(null);
+
+  const handleAddToLibrary = async (book) => {
+    if (userLibrary.includes(book.book_id)) {
+      toast.info(`${book.title} is already in your library.`);
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${backendUrl}/api/library/add`,
+        { bookId: book.book_id },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success(`${book.title} added to your library.`);
+        setUserLibrary((prev) => [...prev, book.book_id]);
+      }
+    } catch (error) {
+      console.error("Failed to add to library:", error);
+      toast.error("Failed to add book to library.");
+    }
+  };
+
+  const allLanguages = ["all", "en"];
 
   return (
     <main className="min-h-screen">
@@ -98,60 +133,14 @@ const Browse = () => {
           </p>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            }
-            label="Total Books"
-            value={"900+"}
-            color="#4a6cf7"
-          />
-          <StatCard
-            icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-              </svg>
-            }
-            label="Languages"
-            value={8}
-            color="#4caf50"
-          />
-          <StatCard
-            icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            }
-            label="Showing"
-            value={books.length}
-            color="#f29ca3"
-          />
-          <StatCard
-            icon={
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            }
-            label="Filtered"
-            value={books.length}
-            color="#a9e5bb"
-          />
+          <StatCard label="Total Books" value={"900+"} color="#4a6cf7" />
+          <StatCard label="Languages" value={8} color="#4caf50" />
+          <StatCard label="Showing" value={books.length} color="#f29ca3" />
+          <StatCard label="Filtered" value={books.length} color="#a9e5bb" />
         </div>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col gap-4 mt-8 lg:flex-row lg:items-center lg:justify-between">
         <SearchBar
           searchQuery={searchQuery}
@@ -169,14 +158,16 @@ const Browse = () => {
         />
       </div>
 
-      {/* Book Grid */}
       <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {books.map((book) => (
-          <BookCard key={book.book_id} book={book} onClick={() => handleBookClick(book)} />
+          <BookCard
+            key={book.book_id}
+            book={book}
+            onClick={() => handleBookClick(book)}
+          />
         ))}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
@@ -185,11 +176,11 @@ const Browse = () => {
         />
       )}
 
-      {/* Modal */}
       <BookDetail
         book={selectedBook}
         onClose={handleCloseModal}
         onAddToLibrary={handleAddToLibrary}
+        userLibrary={userLibrary}
       />
     </main>
   );
