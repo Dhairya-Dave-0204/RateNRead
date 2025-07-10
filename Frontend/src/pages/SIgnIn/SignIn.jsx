@@ -126,18 +126,10 @@ function SignIn() {
                       />
                       <label
                         htmlFor="remember"
-                        className="ml-2 block text-sm text-[#1c1c1e]"
+                        className="ml-2 block text-sm text-[#1c1c1e] cursor-pointer"
                       >
                         Remember me
                       </label>
-                    </div>
-                    <div className="text-sm">
-                      <a
-                        href="#"
-                        className="font-medium text-[#4a6cf7] hover:text-[#4a6cf7]/80"
-                      >
-                        Forgot your password?
-                      </a>
                     </div>
                   </div>
 
