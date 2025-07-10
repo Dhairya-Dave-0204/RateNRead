@@ -28,7 +28,7 @@ const FilterSortBar = ({
       className="p-2 border rounded-md cursor-pointer"
     >
       <option value="dateAdded">Date Added</option>
-      <option value="title">Title (A–Z)</option>
+      <option value="title">Title (A-Z)</option>
       <option value="rating">Rating</option>
     </select>
 

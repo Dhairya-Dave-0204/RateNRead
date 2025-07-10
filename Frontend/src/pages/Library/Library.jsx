@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import {
   LibraryBookCard,
   LibraryHeader,
@@ -6,111 +6,46 @@ import {
   FilterSortBar,
   LibraryPagination,
 } from "../../components/component_index";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { AppContext } from "../../context/AppContext";
 
 const booksPerPage = 6;
 
 const Library = () => {
-  const [books, setBooks] = useState([
-    {
-      id: 1,
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      description:
-        "A classic American novel set in the Jazz Age, telling the story of Jay Gatsby's pursuit of the American Dream and his obsession with Daisy Buchanan.",
-      isbn: "978-0-7432-7356-5",
-      language: "English",
-      image:
-        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop",
-      dateAdded: "2024-01-15",
-      rating: 4,
-      notes:
-        "An incredible exploration of wealth, love, and the American Dream. Fitzgerald's prose is absolutely beautiful.",
-    },
-    {
-      id: 2,
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      description:
-        "A gripping tale of racial injustice and childhood innocence in the American South, told through the eyes of Scout Finch.",
-      isbn: "978-0-06-112008-4",
-      language: "English",
-      image:
-        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop",
-      dateAdded: "2024-02-10",
-      rating: 5,
-      notes:
-        "A powerful story about morality and justice. Atticus Finch remains one of literature's most admirable characters.",
-    },
-    {
-      id: 3,
-      title: "1984",
-      author: "George Orwell",
-      description:
-        "A dystopian social science fiction novel about totalitarian control and the struggle for individual freedom in a surveillance state.",
-      isbn: "978-0-452-28423-4",
-      language: "English",
-      image:
-        "https://images.unsplash.com/photo-1495640388908-05fa85288e61?w=300&h=400&fit=crop",
-      dateAdded: "2024-03-05",
-      rating: 5,
-      notes:
-        "Frighteningly relevant to today's world. Orwell's vision of surveillance and thought control is chilling.",
-    },
-    {
-      id: 4,
-      title: "Pride and Prejudice",
-      author: "Jane Austen",
-      description:
-        "A romantic novel that critiques the British landed gentry at the end of the 18th century through the relationship between Elizabeth Bennet and Mr. Darcy.",
-      isbn: "978-0-14-143951-8",
-      language: "English",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop",
-      dateAdded: "2024-01-28",
-      rating: 4,
-      notes:
-        "Austen's wit and social commentary are timeless. Elizabeth Bennet is a wonderfully complex protagonist.",
-    },
-    {
-      id: 5,
-      title: "Le Petit Prince",
-      author: "Antoine de Saint-Exupéry",
-      description:
-        "A poetic tale about a young prince who travels from planet to planet, learning about the nature of human relationships and the meaning of life.",
-      isbn: "978-2-07-040837-2",
-      language: "French",
-      image:
-        "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=300&h=400&fit=crop",
-      dateAdded: "2024-02-20",
-      rating: 5,
-      notes:
-        "A beautiful philosophical tale that speaks to both children and adults. The illustrations are enchanting.",
-    },
-    {
-      id: 6,
-      title: "Cien años de soledad",
-      author: "Gabriel García Márquez",
-      description:
-        "A multi-generational saga of the Buendía family in the fictional town of Macondo, blending reality with fantastical elements.",
-      isbn: "978-84-376-0494-4",
-      language: "Spanish",
-      image:
-        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop",
-      dateAdded: "2024-03-12",
-      rating: 4,
-      notes:
-        "Magical realism at its finest. García Márquez creates a world that feels both mythical and deeply real.",
-    },
-  ]);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [selectedBook, setSelectedBook] = useState(null);
+  const [editingNotes, setEditingNotes] = useState("");
   const [filterLanguage, setFilterLanguage] = useState("all");
   const [sortBy, setSortBy] = useState("dateAdded");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { backendUrl } = useContext(AppContext);
 
   const languages = useMemo(
     () => [...new Set(books.map((b) => b.language))],
     [books]
   );
+
+  // Fetch all books in the library on mount
+  useEffect(() => {
+    const fetchLibrary = async () => {
+      try {
+        const result = await axios.get(`${backendUrl}/api/library`, {
+          withCredentials: true,
+        });
+        setBooks(result.data.books);
+      } catch (error) {
+        console.error("Error fetching the user library", error);
+        toast.error("Error fetching the library!");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLibrary();
+  }, [backendUrl]);
 
   const filteredAndSortedBooks = useMemo(() => {
     let filtered = books;
@@ -122,7 +57,7 @@ const Library = () => {
         case "title":
           return a.title.localeCompare(b.title);
         case "dateAdded":
-          return new Date(b.dateAdded) - new Date(a.dateAdded);
+          return new Date(b.created_at) - new Date(a.created_at);
         case "rating":
           return b.rating - a.rating;
         default:
@@ -137,22 +72,70 @@ const Library = () => {
     currentPage * booksPerPage
   );
 
-  const handleRating = (bookId, rating) => {
-    setBooks((prev) =>
-      prev.map((b) => (b.id === bookId ? { ...b, rating } : b))
-    );
+  // Handle rating update
+  const handleRating = async (libraryId, rating) => {
+    try {
+      await axios.put(
+        `${backendUrl}/api/library/${libraryId}`,
+        { rating },
+        { withCredentials: true }
+      );
+      setBooks((prev) =>
+        prev.map((book) =>
+          book.library_id === libraryId ? { ...book, rating } : book
+        )
+      );
+      toast.success("Rating updated");
+    } catch (error) {
+      console.error("Error updating book rating", error);
+      toast.error("Rating update failed");
+    }
   };
 
-  const handleSaveNotes = (bookId, newNotes) => {
-    setBooks((prev) =>
-      prev.map((b) => (b.id === bookId ? { ...b, notes: newNotes } : b))
-    );
-    setSelectedBook(null);
+  // Handle notes save
+  const handleSaveNotes = async () => {
+    const libraryId = selectedBook?.library_id;
+    if (!libraryId) {
+      toast.error("No book selected");
+      return;
+    }
+
+    try {
+      await axios.put(
+        `${backendUrl}/api/library/${libraryId}`,
+        { notes: editingNotes },
+        { withCredentials: true }
+      );
+
+      setBooks((prev) =>
+        prev.map((book) =>
+          book.library_id === libraryId
+            ? { ...book, notes: editingNotes }
+            : book
+        )
+      );
+      setSelectedBook({ ...selectedBook, notes: editingNotes });
+      toast.success("Notes saved");
+    } catch (error) {
+      console.error("Error saving notes", error);
+      toast.error("Notes update failed");
+    }
   };
 
-  const handleRemoveBook = (bookId) => {
-    setBooks((prev) => prev.filter((b) => b.id !== bookId));
-    setSelectedBook(null);
+  // Handle remove book
+  const handleRemoveBook = async (libraryId) => {
+    try {
+      await axios.delete(`${backendUrl}/api/library/${libraryId}`, {
+        withCredentials: true,
+      });
+
+      setBooks((prev) => prev.filter((b) => b.library_id !== libraryId));
+      setSelectedBook(null);
+      toast.success("Book removed from library");
+    } catch (error) {
+      console.error("Error deleting book", error);
+      toast.error("Delete failed");
+    }
   };
 
   return (
@@ -168,25 +151,36 @@ const Library = () => {
         count={filteredAndSortedBooks.length}
       />
 
-      <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 max-w-7xl">
-        {paginatedBooks.map((book) => (
-          <LibraryBookCard
-            key={book.id}
-            book={book}
-            onClick={() => setSelectedBook(book)}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <div className="text-center text-gray-500">Loading your library...</div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 max-w-7xl">
+            {paginatedBooks.map((book) => (
+              <LibraryBookCard
+                key={book.library_id}
+                book={book}
+                onClick={() => {
+                  setSelectedBook(book);
+                  setEditingNotes(book.notes || "");
+                }}
+              />
+            ))}
+          </div>
 
-      <LibraryPagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+          <LibraryPagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
+      )}
 
       {selectedBook && (
         <BookModal
           book={selectedBook}
+          editingNotes={editingNotes}
+          setEditingNotes={setEditingNotes}
           onClose={() => setSelectedBook(null)}
           onRate={handleRating}
           onRemove={handleRemoveBook}
