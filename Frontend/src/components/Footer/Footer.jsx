@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -154,7 +153,7 @@ function Footer() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="ml-2 text-xl font-bold">RatenRead</span>
+                <span className="ml-2 text-xl font-bold">RateNRead</span>
               </div>
               <p className="max-w-xs mb-6 text-text-mute">
                 Your personal digital library that evolves with your reading

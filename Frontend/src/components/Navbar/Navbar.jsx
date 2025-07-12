@@ -16,7 +16,7 @@ function Navbar() {
             to={"/"}
             className="text-2xl font-bold tracking-tight text-primary"
           >
-            RatenRead
+            RateNRead
           </Link>
 
           {/* Desktop Nav Links */}
