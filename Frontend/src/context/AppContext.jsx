@@ -1,35 +1,42 @@
 import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
   // State that checks users presence
   const [user, setUser] = useState(false);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const [loading, setLoading] = useState(true);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Function to fetch Logged-In User on App Load
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch("/api/auth/check", {
-          credentials: "include",
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
-        }
-      } catch (err) {
-        console.error("Not logged in or session expired. Error via AppContext");
+  const checkSession = async () => {
+    try {
+      const res = await axios.get(`${backendUrl}/api/auth/check`, {
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        setUser(true);
+      } else {
+        setUser(false);
       }
-    };
+    } catch (error) {
+      setUser(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchUser();
+  useEffect(() => {
+    checkSession();
   }, []);
 
   const value = {
     user,
     setUser,
     backendUrl,
+    loading,
+    setLoading,
   };
 
   return (
