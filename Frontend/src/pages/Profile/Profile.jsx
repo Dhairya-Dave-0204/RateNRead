@@ -4,22 +4,35 @@ import {
   ProfileStatCard,
   AccountSettings,
   RecentBooks,
+  AnimatedLoader
 } from "../../components/component_index";
 import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
+import { useState } from "react";
 
 function Profile() {
   const { user, loading } = useContext(AppContext);
+  const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && user === false) {
       navigate("/login");
     }
-  }, [user]);
 
-  if (loading) return <p>Loading profile...</p>;
+    if (!loading && user === true) {
+      const timer = setTimeout(() => {
+        setShowProfile(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [user, loading]);
+
+  if (loading || (!showProfile && user)) {
+    return <AnimatedLoader />;
+  }
+
   if (!user) return null;
 
   return (

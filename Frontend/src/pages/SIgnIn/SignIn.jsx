@@ -158,7 +158,7 @@ function SignIn() {
                   <button
                     type="button"
                     onClick={handleGoogleSignIn}
-                    className="w-full py-3 rounded-lg border border-[#3a3a3c] text-[#1c1c1e] hover:bg-[#f0f0f0] transition duration-300"
+                    className="w-full py-3 rounded-lg border cursor-pointer border-[#3a3a3c] text-[#1c1c1e] hover:bg-[#f0f0f0] transition duration-300"
                   >
                     <i className="mr-2 text-main-border ri-google-fill"></i>
                     Continue with Google

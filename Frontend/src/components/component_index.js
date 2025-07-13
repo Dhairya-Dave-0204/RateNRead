@@ -22,6 +22,7 @@ import LibraryBookCard from "./LibraryBookCard/LibraryBookCard";
 import LibraryHeader from "./LibraryHeader/LibraryHeader";
 import LibraryPagination from "./LibraryPagination/LibraryPagination";
 import StarRating from "./StarRating/StarRating";
+import AnimatedLoader from "./AnimatedLoader/AnimatedLoader";
 
 
 export {
@@ -49,4 +50,5 @@ export {
     LibraryHeader,
     LibraryPagination,
     StarRating,
+    AnimatedLoader,
 }
