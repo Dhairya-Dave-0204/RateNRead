@@ -60,7 +60,8 @@ passport.use(
     },
     async (accessToken, rereshToken, profile, cb) => {
       try {
-        let user = await findUserByGoogleId(profile.id);
+        const googleId = profile.id
+        let user = await findUserByGoogleId(googleId);
         if (!user) {
           user = await createUserFromGoogle(profile);
         }

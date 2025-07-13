@@ -4,7 +4,7 @@ All functionality involving the user is defined here.
 */
 
 import dbPool from "../config/db.js";
-import { createSession } from "./sessionModel.js"
+import { createSession } from "./sessionModel.js";
 
 // Insert new user to the database, (User Registration)
 export const createUser = async (username, email, hashedPassword) => {
@@ -22,14 +22,14 @@ export const createUser = async (username, email, hashedPassword) => {
     const session = await createSession(newUser.id);
 
     // Ensure that session_token is added to the user object
-    newUser.sid = session.sid
+    newUser.sid = session.sid;
     newUser.session_token = session.session_token;
-    newUser.sess = session.sess
+    newUser.sess = session.sess;
 
-    return newUser;  // Return the user along with the session token
+    return newUser; // Return the user along with the session token
   } catch (error) {
     console.log("Error creating new user", error);
-    throw error;  // Rethrow the error after logging it
+    throw error; // Rethrow the error after logging it
   }
 };
 
@@ -75,11 +75,11 @@ export const createUserFromGoogle = async (profile) => {
   const email = profile.emails[0].value;
   const username = profile.displayName;
   const hashedPassword = "Google Created";
-  const googleId = profile.displayName;
+  const googleId = profile.id;
 
   try {
     const result = await dbPool.query(
-      "INSERT INTO users (username, email, pass, google) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO users (username, email, pass, google_id) VALUES ($1, $2, $3, $4) RETURNING *",
       [username, email, hashedPassword, googleId]
     );
     return result.rows[0];
@@ -91,9 +91,10 @@ export const createUserFromGoogle = async (profile) => {
 // Find user by using Google ID
 export const findUserByGoogleId = async (googleId) => {
   try {
-    const result = await dbPool.query("SELECT * FROM users WHERE google = $1", [
-      googleId,
-    ]);
+    const result = await dbPool.query(
+      "SELECT * FROM users WHERE google_id = $1",
+      [googleId]
+    );
     return result.rows[0];
   } catch (error) {
     console.log("Error finding user by using Google ID" + error);
