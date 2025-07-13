@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -57,17 +58,29 @@ function Hero() {
         {/* Main Content */}
         <div className="container relative z-10 flex flex-col items-center max-w-4xl px-6 mx-auto text-center">
           {/* Animated highlight badge */}
-          <div className="relative mb-8 overflow-hidden rounded-full">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="relative mb-8 overflow-hidden rounded-full"
+          >
             <div className="inline-flex items-center px-6 py-2 border rounded-full bg-white/30 backdrop-blur-sm border-white/40">
               <div className="absolute inset-0 bg-gradient-to-r from-main-border/0 via-main-border/10 to-main-border/0 animate-shimmer"></div>
               <span className="relative font-medium text-primary">
                 Your Personal Book Library
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Headline with gradient animated underline */}
-          <h1 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-primary">
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-6 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-primary"
+          >
             <span className="relative inline-block">
               Track,
               <div className="absolute left-0 w-full h-3 rounded-full bottom-2 bg-gradient-to-r from-main-border/40 to-ternary-pink/40 animate-pulse-slow"></div>
@@ -87,23 +100,38 @@ function Hero() {
             </span>
             <br />
             on Every Book You Read
-          </h1>
+          </motion.h1>
 
           {/* Subheading */}
-          <p className="max-w-2xl mb-10 text-lg md:text-xl text-text-mute">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="max-w-2xl mb-10 text-lg md:text-xl text-text-mute"
+          >
             Your personal digital library that evolves with your reading
             journey, designed to capture the essence of every book you
             experience.
-          </p>
+          </motion.p>
 
           {/* CTA Button with gradient animation */}
-          <div className="relative group">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="relative group"
+          >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-main-border to-ternary-pink rounded-full opacity-75 blur-sm group-hover:opacity-100 transition duration-500"></div>
-            <button onClick={() => navigate("/signin")} className="relative flex items-center justify-center px-8 py-4 font-medium transition duration-300 bg-white rounded-full cursor-pointer text-primary group-hover:text-main-border">
+            <button
+              onClick={() => navigate("/signin")}
+              className="relative flex items-center justify-center px-8 py-4 font-medium transition duration-300 bg-white rounded-full cursor-pointer text-primary group-hover:text-main-border"
+            >
               <span>Start Your Library</span>
               <i className="ml-2 text-2xl transition-transform duration-300 ri-arrow-right-line group-hover:translate-x-1"></i>
             </button>
-          </div>
+          </motion.div>
 
           {/* Floating Gradient Ring */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-main-border/5 z-0 animate-spin-slow"></div>
