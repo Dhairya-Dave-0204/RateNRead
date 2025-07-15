@@ -6,7 +6,7 @@ Pool method does not require explicit connection function for query execution, j
 The path and url setup is done for the working of the script to import the books in database.
 It uses dotenv to load environment variables from .env file.
 */
-import pkg from "pg"
+import pkg from "pg";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,17 +15,20 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Explicitly load .env from project root 
+// Explicitly load .env from project root
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
-const { Pool } = pkg
+const { Pool } = pkg;
 
 const dbPool = new Pool({
-    user: process.env.POSTGRE_USER,
-    host: process.env.POSTGRE_HOST,
-    database: process.env.POSTGRE_DB,
-    password: process.env.POSTGRE_PASSWORD,
-    port: process.env.POSTGRE_PORT,
-})  
+  user: process.env.POSTGRE_USER,
+  host: process.env.POSTGRE_HOST,
+  database: process.env.POSTGRE_DB,
+  password: process.env.POSTGRE_PASSWORD,
+  port: process.env.POSTGRE_PORT,
+  ssl: {
+    rejectUnauthorized: false, // required for Render external DB
+  },
+});
 
-export default dbPool
+export default dbPool;
