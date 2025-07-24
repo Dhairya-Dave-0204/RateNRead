@@ -98,7 +98,7 @@ function SignUp() {
         setUser(true);
         navigate("/profile");
       } else {
-        toast.error("Registration failed");
+        toast.error("Registration failed" + response.data.message);
       }
     } catch (error) {
       console.log("Error while manual registration");
