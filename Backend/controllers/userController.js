@@ -37,7 +37,7 @@ export async function handleRegister(req, res) {
         });
       }
       return res.send({
-        success: true,
+        success: true,  
         message: "Registration successful via userController",
       });
     });

@@ -26,9 +26,6 @@ const dbPool = new Pool({
   database: process.env.POSTGRE_DB,
   password: process.env.POSTGRE_PASSWORD,
   port: process.env.POSTGRE_PORT,
-  ssl: {
-    rejectUnauthorized: false, // required for Render external DB
-  },
 });
 
 export default dbPool;
