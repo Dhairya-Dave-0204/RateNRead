@@ -18,6 +18,8 @@ const __dirname = path.dirname(__filename);
 // Explicitly load .env from project root
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const { Pool } = pkg;
 
 const dbPool = new Pool({
@@ -26,6 +28,9 @@ const dbPool = new Pool({
   database: process.env.POSTGRE_DB,
   password: process.env.POSTGRE_PASSWORD,
   port: process.env.POSTGRE_PORT,
+  ssl: isProduction
+    ? { rejectUnauthorized: false }
+    : false,
 });
 
 export default dbPool;
