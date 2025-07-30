@@ -3,7 +3,7 @@
 **RateNRead** is a full-stack book tracking application built using the **PERN Stack (PostgreSQL, Express.js, React, Node.js)**. The platform allows users to browse and manage a collection of over 900 curated books, save favorites to their personal library, rate them, add personal notes, and more – all with smooth UX and persistent session handling.
 
 🚀 **Live Site**: [https://rate-n-read.vercel.app](https://rate-n-read.vercel.app)  
-🔗 **Backend API**: [https://rate-n-read-backend.onrender.com](https://rate-n-read-backend.onrender.com)
+🔗 **Backend API**: [https://rate-n-read-backend.onrender.com](https://ratenread-backend.onrender.com)
 
 ---
 
