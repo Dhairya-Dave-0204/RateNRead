@@ -54,7 +54,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     cookie: {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: true, // Set to true if using HTTPS
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
