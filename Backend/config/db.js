@@ -28,6 +28,9 @@ const dbPool = new Pool({
   database: process.env.POSTGRE_DB,
   password: process.env.POSTGRE_PASSWORD,
   port: process.env.POSTGRE_PORT,
+  max: 20, // Max number of connections
+  idleTimeoutMillis: 30000, // 30 seconds before idle client is closed
+  connectionTimeoutMillis: 2000, // 2 seconds to connect before timeout
   ssl: isProduction
     ? { rejectUnauthorized: false }
     : false,
