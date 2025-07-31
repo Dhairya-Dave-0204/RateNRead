@@ -4,31 +4,30 @@ import axios from "axios";
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  // State that checks users presence
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null); // holds user object or null
   const [loading, setLoading] = useState(true);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const checkSession = async () => {
+  const fetchUser = async () => {
     try {
-      const res = await axios.get(`${backendUrl}/api/auth/check`, {
+      const res = await axios.get(`${backendUrl}/api/user/profile`, {
         withCredentials: true,
       });
 
       if (res.data.success) {
-        setUser(true);
+        setUser(res.data.user); // store full user data
       } else {
-        setUser(false);
+        setUser(null);
       }
     } catch (error) {
-      setUser(false);
+      setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    checkSession();
+    fetchUser();
   }, []);
 
   const value = {
@@ -40,7 +39,9 @@ const AppContextProvider = (props) => {
   };
 
   return (
-    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={value}>
+      {props.children}
+    </AppContext.Provider>
   );
 };
 
