@@ -1,41 +1,25 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; 
 import { AppContext } from "../../context/AppContext";
 
 function AccountSettings() {
+  const { backendUrl, user } = useContext(AppContext); // ✅ Access user from context
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "Guest User",
-    email: "No Email",
+    name: user?.username || "Guest User",
+    email: user?.email || "No Email",
   });
-  const { backendUrl } = useContext(AppContext);
 
+  // ✅ Sync formData with updated user from context
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${backendUrl}/api/user/profile`, {
-          withCredentials: true,
-        });
-        if (response.data.success === false) {
-          toast.error(
-            "Failed to fetch user data. Please try again later. AccountSettings.jsx"
-          );
-        }
-        const data = response.data.user;
-        setFormData({
-          name: data.username || "Guest User",
-          email: data.email || "No Email",
-        });
-      } catch (error) {
-        console.error("Error fetching user data AccountSettings.jsx : ", error);
-        toast.error(
-          "Failed to fetch user data. Please try again later. AccountSettings.jsx"
-        );
-      }
-    };
-    fetchUserData();
-  }, []);
+    if (user) {
+      setFormData({
+        name: user.username || "Guest User",
+        email: user.email || "No Email",
+      });
+    }
+  }, [user]);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -57,20 +41,17 @@ function AccountSettings() {
         );
 
         if (response.data.success === false) {
-          toast.error(
-            "Failed to update user data. Please try again later. AccountSettings.jsx"
-          );
+          toast.error("Failed to update user data.");
           console.log(response.data.message);
           return;
         }
 
         toast.success("User data updated successfully.");
         setIsEditing(false);
+        // Optional: trigger a context refresh if needed
       } catch (error) {
-        console.error("Error updating user data AccountSettings.jsx: ", error);
-        toast.error(
-          "Failed to update user data. Please try again later. AccountSettings.jsx"
-        );
+        console.error("Error updating user data:", error);
+        toast.error("Failed to update user data.");
       }
     } else {
       setIsEditing(true);
@@ -78,7 +59,7 @@ function AccountSettings() {
   };
 
   return (
-    <div className="p-6 bg-white border shadow-sm rounded-2xl border-text-pri">
+     <div className="p-6 bg-white border shadow-sm rounded-2xl border-text-pri">
       <h3 className="mb-6 text-xl font-semibold">Account Settings</h3>
 
       <div className="space-y-6">
