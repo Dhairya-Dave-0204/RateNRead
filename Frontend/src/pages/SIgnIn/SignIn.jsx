@@ -18,6 +18,7 @@ function SignIn() {
     e.preventDefault();
 
     try {
+      console.log("Backend URL in SignIn:", backendUrl);
       const response = await axios.post(
         `${backendUrl}/api/auth/login`,
         { email, password },

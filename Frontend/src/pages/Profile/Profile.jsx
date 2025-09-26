@@ -12,7 +12,7 @@ import { AppContext } from "../../context/AppContext";
 import { useState } from "react";
 
 function Profile() {
-  const { user, loading } = useContext(AppContext);
+  const { user, loading, backendUrl } = useContext(AppContext);
   const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ function Profile() {
       navigate("/login");
     }
     if (!loading && user === true) {
+      console.log("Backend URL in Profile:", backendUrl);
       setShowProfile(true); // Show profile immediately
     }
   }, [user, loading]);

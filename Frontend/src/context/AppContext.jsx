@@ -10,6 +10,7 @@ const AppContextProvider = (props) => {
 
   const fetchUser = async () => {
     try {
+      console.log("Backend URL:", backendUrl);
       const res = await axios.get(`${backendUrl}/api/user/profile`, {
         withCredentials: true,
       });
