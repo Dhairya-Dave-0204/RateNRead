@@ -10,7 +10,7 @@ function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { backendUrl, setUser } = useContext(AppContext);
+  const { backendUrl, setUser, fetchUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   // Function to handle manual login via form submission
@@ -27,7 +27,8 @@ function SignIn() {
         toast.error("Account not found. Please sign up first.");
         return;
       }
-      setUser(true);
+      setUser(response.data.user);
+      await fetchUser;
       toast.success("Sigin in successfully!");
       navigate("/profile");
     } catch (error) {

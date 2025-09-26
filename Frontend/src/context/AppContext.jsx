@@ -18,7 +18,7 @@ const AppContextProvider = (props) => {
         setUser(res.data.user); // store full user data
       } else {
         setUser(null);
-      }
+      } 
     } catch (error) {
       setUser(null);
     } finally {
@@ -36,6 +36,7 @@ const AppContextProvider = (props) => {
     backendUrl,
     loading,
     setLoading,
+    fetchUser,
   };
 
   return (
