@@ -27,7 +27,7 @@ function SignIn() {
         toast.error("Account not found. Please sign up first.");
         return;
       }
-      setUser(response.data.user);
+      setUser(response.data.user || null);
       await fetchUser;
       toast.success("Sigin in successfully!");
       navigate("/profile");
