@@ -10,7 +10,7 @@ function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { backendUrl, setUser, fetchUser } = useContext(AppContext);
+  const { backendUrl, setUser, fetchUser, loading } = useContext(AppContext);
   const navigate = useNavigate();
 
   // Function to handle manual login via form submission
@@ -30,7 +30,7 @@ function SignIn() {
       setUser(response.data.user || null);
       await fetchUser;
       toast.success("Sigin in successfully!");
-      navigate("/profile");
+      setTimeout(() => navigate("/profile"), 50);
     } catch (error) {
       console.error(error + "Sign in error");
       toast.error("Invalid email or password");
@@ -41,6 +41,8 @@ function SignIn() {
   const handleGoogleSignIn = () => {
     window.location.href = `${backendUrl}/api/auth/google`;
   };
+  
+  if (loading) return <p>Loading...</p>;
   
   return (
     <>
