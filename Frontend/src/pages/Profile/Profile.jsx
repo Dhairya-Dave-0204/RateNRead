@@ -17,14 +17,15 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && user === false) {
+    if (!loading && !user) {
       navigate("/login");
     }
-    if (!loading && user === true) {
+    
+    if (!loading && user) {
       console.log("Backend URL in Profile:", backendUrl);
       setShowProfile(true); // Show profile immediately
     }
-  }, [user, loading]);
+  }, [user, loading, backendUrl, navigate]);
 
   if (loading || !showProfile) return <AnimatedLoader />;
 
